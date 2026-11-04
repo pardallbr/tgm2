@@ -189,7 +189,7 @@
           </div>
         </div>
 
-        <!-- Passo 2: Testes TGMD-2 (Locomotor e Controle de Objetos) -->
+        <!-- Passo 2: Testes TGMD-2 -->
         <div class="space-y-6">
           <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 print-shadow-none">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-200 gap-2 mb-4">
@@ -374,6 +374,20 @@
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
                   Salvar Avaliação no Navegador
                 </button>
+
+                <!-- BOTÃO GOOGLE DRIVE -->
+                <button type="button" id="btn-salvar-drive" class="w-full py-2.5 px-3 text-xs font-bold rounded-lg bg-sky-600 hover:bg-sky-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+                  <svg class="w-4 h-4 shrink-0" viewBox="0 0 87.3 78" fill="none">
+                    <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+                    <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00ac47"/>
+                    <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+                    <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+                    <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+                    <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+                  </svg>
+                  Salvar no Google Drive
+                </button>
+
                 <button type="button" id="btn-imprimir" class="w-full py-2.5 px-3 text-xs font-bold rounded-lg bg-slate-800 hover:bg-slate-900 text-white flex items-center justify-center gap-2 shadow-sm transition">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                   Imprimir / Salvar em PDF
@@ -599,7 +613,7 @@
       nasc: "",
       aval: new Date().toISOString().split("T")[0],
       obs: "",
-      scores: {}, // key: `${subtest}_${skillId}_${critIdx}_${trialIdx}` -> 0 ou 1
+      scores: {},
       ant: {
         loco: null,
         obj: null,
@@ -816,8 +830,7 @@
       document.getElementById("kpi-loco-top").textContent = `${sumLoco} / 48 pts (${pctLoco}%)`;
       document.getElementById("kpi-obj-top").textContent = `${sumObj} / 46 pts (${pctObj}%)`;
 
-      // Conversão Normativa Ulrich:
-      // Escore composto padronizado e QMA (Quociente Motor Amplo, M=100, DP=15)
+      // Conversão Normativa Ulrich
       const qmaCalculado = Math.round(55 + (totalRaw / 94) * 65);
       const percCalculado = Math.min(99, Math.max(1, Math.round((qmaCalculado - 60) * 1.55)));
       const classification = getClassificationTGMD(qmaCalculado);
@@ -1029,6 +1042,17 @@
       showToast("Registro removido com sucesso.");
     }
 
+    // Exportação para o Google Drive
+    function exportarParaDrive() {
+      const nomeLimpo = (state.nome || "Crianca_Avaliada").trim().replace(/\s+/g, "_");
+      document.title = `Relatorio_TGMD2_${nomeLimpo}`;
+      showToast("Abrindo laudo TGMD-2 e o seu Google Drive...");
+      setTimeout(() => {
+        window.open("https://drive.google.com/drive/my-drive", "_blank");
+        window.print();
+      }, 200);
+    }
+
     // Inicialização e Listeners
     window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("form-login").addEventListener("submit", (e) => {
@@ -1110,7 +1134,8 @@
       document.getElementById("select-criancas-salvas").addEventListener("change", e => carregarCriancaTGMD(e.target.value));
       document.getElementById("btn-excluir-crianca").addEventListener("click", excluirCriancaTGMD);
 
-      // Impressão
+      // Ações de Exportação
+      document.getElementById("btn-salvar-drive").addEventListener("click", exportarParaDrive);
       document.getElementById("btn-imprimir").addEventListener("click", () => window.print());
 
       refreshSavedSelect();
