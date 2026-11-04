@@ -3,52 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Avaliação Motora Integrado — TGMD-2 & EDM</title>
+  <title>Calculadora e Relatório TGMD-2 — Dale A. Ulrich</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     @media print {
       .no-print { display: none !important; }
-      body { background: white !important; color: #0f172a !important; font-size: 9pt !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { background: white !important; color: #0f172a !important; font-size: 8.5pt !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
       .print-shadow-none { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
       .page-break-avoid { break-inside: avoid !important; page-break-inside: avoid !important; }
       main { padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
       .overflow-x-auto { overflow: visible !important; }
-      table.print-table-fixed { min-width: 0 !important; width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important; }
-      table.print-table-fixed th, table.print-table-fixed td { padding: 3px 1px !important; font-size: 8pt !important; }
-      #edm-grid-body select { display: none !important; }
-      [id^="grid-print-"] { display: inline-block !important; }
-      [id^="group-lat-"] { display: none !important; }
-      [id^="print-val-lat-"] { display: inline-block !important; }
+      #print-header, #print-header-p2 { display: block !important; }
       #print-signature-block { display: block !important; }
-      .print-page-break { page-break-before: always !important; break-before: page !important; display: block !important; height: 0 !important; margin: 0 !important; padding: 0 !important; }
+      .print-page-break {
+        page-break-before: always !important;
+        break-before: page !important;
+        display: block !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
     }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen font-sans flex flex-col antialiased">
 
   <!-- ============================================== -->
-  <!-- TELA DE LOGIN -->
+  <!-- TELA DE LOGIN (ACESSO RESTRITO) -->
   <!-- ============================================== -->
   <div id="screen-login" class="fixed inset-0 z-50 bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 max-w-sm w-full p-6 sm:p-8 space-y-6">
       <div class="text-center space-y-1">
-        <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 mb-2">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 mb-2">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
         </div>
         <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Sistema Motricidade</h2>
-        <p class="text-xs text-slate-500 font-medium">Acesso Restrito • Avaliação TGMD-2 & EDM</p>
+        <p class="text-xs text-slate-500 font-medium">Acesso Restrito • Avaliação TGMD-2</p>
       </div>
+
       <form id="form-login" class="space-y-4">
         <div>
           <label for="input-login-email" class="block text-xs font-bold text-slate-700 mb-1">E-mail de Acesso Autorizado</label>
-          <input type="email" id="input-login-email" placeholder="seu-email@dominio.com" required class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition">
+          <input type="email" id="input-login-email" placeholder="seu-email@dominio.com" required class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
           <p id="login-error-msg" class="text-xs text-red-600 mt-2 hidden flex items-center gap-1 font-medium">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
             E-mail não autorizado. Digite seu e-mail cadastrado.
           </p>
         </div>
-        <button type="submit" class="w-full py-2.5 px-4 text-sm font-bold rounded-lg bg-indigo-700 hover:bg-indigo-600 text-white shadow-md transition flex items-center justify-center gap-2">
+
+        <button type="submit" class="w-full py-2.5 px-4 text-sm font-bold rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white shadow-md transition flex items-center justify-center gap-2">
           <span>Entrar no Sistema</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
@@ -61,39 +65,46 @@
   <!-- ============================================== -->
   <div id="app-content" class="hidden flex-1 flex flex-col">
 
-    <!-- Header Banner com Botão Discreto de Alternância -->
-    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 text-white shadow-md no-print">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5">
+    <!-- Header Banner -->
+    <header class="bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-900 text-white shadow-md no-print">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <div class="flex items-center gap-2">
-              <span id="badge-sistema-ativo" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                Protocolo Ativo: TGMD-2 (Ulrich)
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/30 text-emerald-200 border border-emerald-400/30">
+                Protocolo TGMD-2 • Dale A. Ulrich (2000)
               </span>
-              <!-- BOTÃO DISCRETO PARA ALTERNAR PROTOCOLOS -->
-              <button id="btn-toggle-protocolo" class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white border border-white/20 transition flex items-center gap-1">
-                <span>⇄ Alternar p/ Escala EDM (Rosa Neto)</span>
-              </button>
+              <span class="text-xs text-slate-300">Padrão Oficial Sistema Motricidade</span>
             </div>
-            <h1 id="title-sistema-ativo" class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1.5">
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">
               Avaliação do Desenvolvimento Motor Grosso (TGMD-2)
             </h1>
-            <p id="desc-sistema-ativo" class="text-xs sm:text-sm text-slate-300 mt-0.5">
-              Protocolo Dale A. Ulrich (2000) • Subtestes Locomotor e Controle de Objetos
+            <p class="text-sm text-slate-300 mt-0.5">
+              Subtestes Locomotor (48 pts) e Controle de Objetos (46 pts) com escores padronizados e QMA.
             </p>
           </div>
 
           <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-            <div class="px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-700 text-xs flex items-center justify-between sm:justify-start gap-2">
+            <div class="px-3 py-1.5 rounded-lg bg-emerald-950/70 border border-emerald-400/20 text-xs flex items-center justify-between sm:justify-start gap-2">
               <div class="flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <div>
                   <span id="user-display-name" class="font-bold text-white block">Avaliador</span>
-                  <span id="user-display-email" class="text-[10px] text-slate-300 block">email@exemplo.com</span>
+                  <span id="user-display-email" class="text-[10px] text-emerald-200 block">email@exemplo.com</span>
                 </div>
               </div>
               <button id="btn-logout" class="ml-2 px-2 py-1 rounded bg-slate-800 hover:bg-red-600 text-[11px] font-semibold text-slate-300 hover:text-white transition">
                 Sair
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <button id="btn-tab-eval" class="flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-colors bg-white text-emerald-950 shadow-sm text-center">
+                Nova Avaliação
+              </button>
+              <button id="btn-tab-comp" class="flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-emerald-950/60 hover:bg-white/10 text-slate-200 flex items-center justify-center gap-1.5 text-center">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <span>Comparativo de Evolução</span>
               </button>
             </div>
           </div>
@@ -109,207 +120,339 @@
         <span id="toast-msg">Mensagem</span>
       </div>
 
-      <!-- ============================================== -->
-      <!-- PAINEL 1: TGMD-2 (ULRICH) -->
-      <!-- ============================================== -->
-      <div id="panel-tgmd2" class="space-y-6">
-        <!-- Dados do Aluno -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
-            <h2 class="text-base font-bold text-slate-900">1. Dados do Avaliado (TGMD-2)</h2>
-            <div class="text-xs text-slate-500">Idade Alvo: 3 a 10 anos</div>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <!-- ======================================================= -->
+      <!-- ABA 1: FLUXO DE AVALIAÇÃO TGMD-2 -->
+      <!-- ======================================================= -->
+      <section id="section-eval" class="space-y-6">
+
+        <!-- Print Header (Página 1) -->
+        <div id="print-header" class="hidden print:block pb-3 mb-3 border-b-2 border-slate-800">
+          <div class="flex justify-between items-start">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Nome da Criança</label>
-              <input type="text" id="tgmd-nome" placeholder="Nome completo..." class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-indigo-500">
+              <h1 class="text-lg font-black text-slate-900 uppercase tracking-tight">Relatório de Avaliação do Desenvolvimento Motor Grosso</h1>
+              <p class="text-[11px] font-semibold text-slate-600">Protocolo Oficial TGMD-2 — Dale A. Ulrich (2000) • Página 1 de 2</p>
             </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Avaliador</label>
-              <input type="text" id="tgmd-avaliador" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-indigo-500">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Data de Nascimento</label>
-              <input type="date" id="tgmd-nasc" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-indigo-500">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Data da Avaliação</label>
-              <input type="date" id="tgmd-aval" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-indigo-500">
-            </div>
-            <div class="bg-indigo-50 rounded-lg p-3 border border-indigo-200 flex flex-col justify-center">
-              <span class="text-xs font-bold text-indigo-900">Idade Cronológica</span>
-              <span id="tgmd-ic-badge" class="text-base font-black text-indigo-700">-</span>
+            <div class="text-right text-[10px] text-slate-500">
+              <span class="font-bold text-slate-700">Sistema Motricidade</span><br>
+              <span id="print-date">Data: --/--/----</span>
             </div>
           </div>
         </div>
 
-        <!-- Grade de Testagem TGMD-2 Resumida Dinâmica -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Subteste Locomotor -->
-          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-3">
-            <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-              <h3 class="text-sm font-black text-slate-900 uppercase">1. Subteste Locomotor (Máx: 48 pts)</h3>
-              <span id="tgmd-score-loco" class="text-xs font-extrabold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md">0 / 48 pts (0%)</span>
+        <!-- Passo 1: Dados do Avaliado -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 print-shadow-none">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-3 border-b border-slate-100 gap-3">
+            <div>
+              <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <svg class="w-5 h-5 text-emerald-600 no-print" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                1. Dados de Identificação
+              </h2>
+              <p class="text-xs text-slate-500 no-print">Preencha o nascimento e a data da sessão para calcular a Idade Cronológica exata.</p>
             </div>
-            <p class="text-xs text-slate-500">Pontue 1 (êxito) ou 0 (não observado) nas duas tentativas de cada critério.</p>
-            <div id="tgmd-loco-container" class="space-y-3 text-xs max-h-[460px] overflow-y-auto pr-1"></div>
-          </div>
-
-          <!-- Subteste Controle de Objetos -->
-          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-3">
-            <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-              <h3 class="text-sm font-black text-slate-900 uppercase">2. Controle de Objetos (Máx: 46 pts)</h3>
-              <span id="tgmd-score-obj" class="text-xs font-extrabold px-2.5 py-1 bg-blue-100 text-blue-800 rounded-md">0 / 46 pts (0%)</span>
-            </div>
-            <p class="text-xs text-slate-500">Pontue 1 (êxito) ou 0 (não observado) nas duas tentativas de cada critério.</p>
-            <div id="tgmd-obj-container" class="space-y-3 text-xs max-h-[460px] overflow-y-auto pr-1"></div>
-          </div>
-        </div>
-
-        <!-- Resultados e Quociente Motor Amplo (QMA) -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 class="text-sm font-black text-slate-900 uppercase mb-4">Resultado Geral — Ulrich (2000)</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-center">
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <span class="text-xs text-slate-500 font-bold block">Escore Bruto Total</span>
-              <span id="tgmd-res-total" class="text-2xl font-black text-slate-800">-</span>
-              <span class="text-[10px] text-slate-400 block">Máximo 94 pontos</span>
-            </div>
-            <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-200">
-              <span class="text-xs text-indigo-900 font-bold block">Quociente Motor Amplo (QMA)</span>
-              <span id="tgmd-res-qma" class="text-2xl font-black text-indigo-700">-</span>
-              <span id="tgmd-res-class" class="text-[11px] font-bold text-indigo-600 block">Aguardando dados</span>
-            </div>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <span class="text-xs text-slate-500 font-bold block">Percentil Estimado</span>
-              <span id="tgmd-res-perc" class="text-2xl font-black text-slate-800">-</span>
-              <span class="text-[10px] text-slate-400 block">Base normativa</span>
-            </div>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-center">
-              <button onclick="window.print()" class="w-full py-2 px-3 text-xs font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition">
-                Imprimir Laudo TGMD-2
+            <div class="flex flex-wrap items-center gap-2 no-print">
+              <select id="select-criancas-salvas" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 bg-white text-slate-700 focus:ring-2 focus:ring-emerald-500 outline-none max-w-[190px] truncate">
+                <option value="">📂 Crianças Salvas...</option>
+              </select>
+              <button type="button" id="btn-excluir-crianca" title="Excluir criança selecionada" class="px-2 py-1.5 text-xs font-bold rounded-lg bg-slate-100 hover:bg-red-100 text-slate-500 hover:text-red-700 border border-slate-200 transition hidden">
+                🗑️
+              </button>
+              <button type="button" id="btn-limpar" class="px-3 py-1.5 text-xs font-semibold rounded bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+                Limpar
               </button>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- ============================================== -->
-      <!-- PAINEL 2: ESCALA EDM (ROSA NETO - 60 NÍVEIS) -->
-      <!-- ============================================== -->
-      <div id="panel-edm" class="hidden space-y-6">
-        <!-- Passo 1: Dados do Avaliado EDM -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
-            <div>
-              <h2 class="text-base font-bold text-slate-900">1. Dados do Avaliado (EDM Rosa Neto)</h2>
-              <p class="text-xs text-slate-500">Grade oficial de 60 níveis de testagem (2 a 11 anos).</p>
-            </div>
-            <button type="button" id="btn-limpar-edm" class="px-3 py-1.5 text-xs font-semibold rounded bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
-              Limpar Grade
-            </button>
-          </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Nome da Criança</label>
-              <input type="text" id="edm-nome" placeholder="Nome..." class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+              <label for="input-nome" class="block text-xs font-bold text-slate-700 mb-1">Nome da Criança</label>
+              <input type="text" id="input-nome" placeholder="Digite o nome..." class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Avaliador</label>
-              <input type="text" id="edm-avaliador" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+              <label for="input-avaliador" class="block text-xs font-bold text-slate-700 mb-1">Avaliador Responsável</label>
+              <input type="text" id="input-avaliador" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Data de Nascimento</label>
-              <input type="date" id="edm-nasc" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+              <label for="input-nasc" class="block text-xs font-bold text-slate-700 mb-1">Data de Nascimento</label>
+              <input type="date" id="input-nasc" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Data da Avaliação</label>
-              <input type="date" id="edm-aval" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+              <label for="input-aval" class="block text-xs font-bold text-slate-700 mb-1">Data da Avaliação</label>
+              <input type="date" id="input-aval" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
             </div>
-            <div class="bg-blue-50 rounded-lg p-3 border border-blue-200 flex flex-col justify-center">
-              <span class="text-xs font-bold text-blue-900">Idade Cronológica (IC)</span>
-              <span id="edm-ic-badge" class="text-base font-black text-blue-700">-</span>
+            <div class="bg-emerald-50/70 rounded-lg p-3 border border-emerald-200/60 flex flex-col justify-center">
+              <span class="text-xs font-bold text-emerald-900">Idade Cronológica (IC)</span>
+              <div class="flex items-baseline gap-2 mt-0.5">
+                <span id="badge-ic-meses" class="text-xl font-black text-emerald-700">-</span>
+                <span id="badge-ic-anos" class="text-xs text-emerald-600">(informe data)</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Grade 6x10 EDM -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-4">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-200">
-            <h2 class="text-base font-bold text-slate-900">2. Grade Oficial de Testes EDM (60 Níveis)</h2>
-            <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border" id="edm-progresso">0 de 60 níveis</span>
+        <!-- Passo 2: Testes TGMD-2 (Locomotor e Controle de Objetos) -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 print-shadow-none">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-200 gap-2 mb-4">
+              <div>
+                <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <svg class="w-5 h-5 text-teal-600 no-print" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                  2. Protocolo de Testagem — 12 Habilidades Motoras Grossas
+                </h2>
+                <p class="text-xs text-slate-600 mt-0.5">
+                  Pontue <strong>1</strong> para critério presente ou <strong>0</strong> para ausente em cada uma das duas tentativas (T1 e T2).
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="badge-progresso-tgmd" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                  0 de 47 critérios preenchidos
+                </span>
+              </div>
+            </div>
+
+            <!-- Grade em 2 Colunas: Locomotor vs Objetos -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              <!-- Subteste 1: Locomotor -->
+              <div class="space-y-4">
+                <div class="flex justify-between items-center bg-teal-50/80 p-3 rounded-lg border border-teal-200">
+                  <div>
+                    <h3 class="text-sm font-black text-teal-950 uppercase tracking-wide">1. Subteste Locomotor</h3>
+                    <p class="text-[11px] text-teal-800">6 habilidades • 24 critérios • Máximo 48 pontos</p>
+                  </div>
+                  <span id="kpi-loco-top" class="text-sm font-black px-3 py-1 bg-teal-600 text-white rounded-md">0 / 48 pts (0%)</span>
+                </div>
+                <div id="container-locomotor" class="space-y-3"></div>
+              </div>
+
+              <!-- Subteste 2: Controle de Objetos -->
+              <div class="space-y-4">
+                <div class="flex justify-between items-center bg-blue-50/80 p-3 rounded-lg border border-blue-200">
+                  <div>
+                    <h3 class="text-sm font-black text-blue-950 uppercase tracking-wide">2. Controle de Objetos</h3>
+                    <p class="text-[11px] text-blue-800">6 habilidades • 23 critérios • Máximo 46 pontos</p>
+                  </div>
+                  <span id="kpi-obj-top" class="text-sm font-black px-3 py-1 bg-blue-600 text-white rounded-md">0 / 46 pts (0%)</span>
+                </div>
+                <div id="container-objetos" class="space-y-3"></div>
+              </div>
+
+            </div>
+
+            <!-- Observações Clínicas -->
+            <div class="mt-6 pt-4 border-t border-slate-100 page-break-avoid">
+              <label for="input-obs" class="block text-xs font-bold text-slate-800 mb-1">
+                Observações Qualitativas e Parecer Técnico
+              </label>
+              <textarea id="input-obs" rows="3" placeholder="Insira aspectos qualitativos da coordenação, tônus, preferência lateral ou foco de treino..." class="w-full p-2.5 text-xs rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+            </div>
           </div>
-          <div class="overflow-x-auto rounded-xl border border-slate-200">
-            <table class="w-full text-xs text-center border-collapse min-w-[700px] print-table-fixed">
-              <thead class="bg-slate-100 text-slate-800 font-extrabold border-b border-slate-200">
-                <tr>
-                  <th class="p-3 text-left w-52">Teste / Área</th>
-                  <th class="p-2">2</th><th class="p-2">3</th><th class="p-2">4</th><th class="p-2">5</th><th class="p-2">6</th>
-                  <th class="p-2">7</th><th class="p-2">8</th><th class="p-2">9</th><th class="p-2">10</th><th class="p-2">11</th>
-                  <th class="p-2 bg-blue-50 text-blue-900 font-black">IM (meses)</th>
-                </tr>
-              </thead>
-              <tbody id="edm-grid-body" class="divide-y divide-slate-100"></tbody>
-            </table>
+        </div>
+
+        <!-- Quebra Oficial de Página para Impressão -->
+        <div class="hidden print:block print-page-break"></div>
+
+        <!-- Print Header (Página 2) -->
+        <div id="print-header-p2" class="hidden print:block pb-3 mb-4 border-b-2 border-slate-800">
+          <div class="flex justify-between items-center text-xs">
+            <div>
+              <span class="font-black text-slate-900 uppercase tracking-wide">Relatório TGMD-2 — Laudo Clínico e Resultados</span>
+              <span id="print-p2-patient" class="text-slate-600 block text-[10px] font-semibold"></span>
+            </div>
+            <div class="text-right text-[10px] text-slate-500">
+              <span class="font-bold text-slate-700">Página 2 de 2</span><br>
+              <span id="print-date-p2"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Passo 3: Laudo Clínico & Gráficos -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Coluna Esquerda: Gráficos e Tabelas de Habilidade -->
+          <div class="lg:col-span-2 space-y-6">
+
+            <!-- Banner Resumo Geral -->
+            <div id="clin-banner" class="bg-slate-100 border-l-4 border-slate-400 rounded-r-xl p-4 space-y-2 shadow-xs transition-all">
+              <div class="flex flex-wrap items-center gap-2">
+                <span id="clin-badge-qma" class="px-2.5 py-1 rounded-md text-xs font-black bg-slate-300 text-slate-700">
+                  QMA - · Aguardando dados
+                </span>
+                <span id="clin-badge-perc" class="px-2.5 py-1 rounded-md text-xs font-black bg-slate-200 text-slate-800">
+                  Percentil -
+                </span>
+              </div>
+              <p id="clin-summary-txt" class="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+                Preencha as tentativas na grade de habilidades acima para gerar o laudo quantitativo e normativo.
+              </p>
+            </div>
+
+            <!-- Destaques Clínicos (Pontos Fortes & Próximo Foco) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 page-break-avoid">
+              <div class="p-3.5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-1">
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Habilidade de Maior Êxito</span>
+                <div id="clin-ponto-forte" class="text-xs font-bold text-slate-800">Aguardando dados</div>
+              </div>
+              <div class="p-3.5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-1">
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Foco Prioritário de Intervenção</span>
+                <div id="clin-proximo-foco" class="text-xs font-bold text-slate-800">Aguardando dados</div>
+              </div>
+            </div>
+
+            <!-- Gráfico de Desempenho por Habilidade -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 print-shadow-none page-break-avoid">
+              <h3 class="text-sm font-bold text-slate-900 mb-2">Desempenho Motor por Habilidade (%)</h3>
+              <div class="relative h-64">
+                <canvas id="chart-habilidades"></canvas>
+              </div>
+            </div>
+
+            <!-- Tabela Detalhada por Habilidade -->
+            <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 page-break-avoid">
+              <h3 class="text-sm font-black text-slate-900 mb-2">Quadro Resumo das 12 Habilidades (TGMD-2)</h3>
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr class="border-b border-slate-200 text-[10px] uppercase font-bold text-slate-500">
+                      <th class="py-1.5">Habilidade Motora</th>
+                      <th class="py-1.5 text-center">Subteste</th>
+                      <th class="py-1.5 text-center">Critérios</th>
+                      <th class="py-1.5 text-center">Pts Obtidos</th>
+                      <th class="py-1.5 text-center">Máx</th>
+                      <th class="py-1.5 text-right">% Êxito</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-skills-body" class="divide-y divide-slate-100"></tbody>
+                </table>
+              </div>
+            </div>
+
           </div>
 
-          <!-- Lateralidade EDM -->
-          <div class="pt-4 border-t border-slate-100">
-            <h3 class="text-xs font-bold text-slate-800 uppercase mb-2">Lateralidade</h3>
+          <!-- Coluna Direita: Métricas Gerais, Salvar e Impressão -->
+          <div class="space-y-6">
+            <div class="bg-gradient-to-b from-white to-slate-50 rounded-xl shadow-sm border border-slate-200 p-6 sticky top-6 print-shadow-none page-break-avoid">
+              <h2 class="text-base font-bold text-slate-900 pb-3 border-b border-slate-200 flex items-center justify-between">
+                <span>Resultado Normativo</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold">Ulrich (2000)</span>
+              </h2>
+
+              <!-- Destaque: QMA -->
+              <div class="py-4 text-center border-b border-slate-100">
+                <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Quociente Motor Amplo (QMA)</span>
+                <div id="res-qma-val" class="text-4xl font-black text-emerald-700 my-1">-</div>
+                <div id="res-class-badge" class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-slate-100 text-slate-600 mt-1">
+                  Aguardando dados
+                </div>
+                <p id="res-class-desc" class="text-xs text-slate-500 mt-2 px-2">
+                  Preencha as pontuações na grade para calcular o índice geral.
+                </p>
+              </div>
+
+              <!-- Lista de Indicadores -->
+              <div class="py-3 space-y-2.5 text-xs border-b border-slate-100">
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Subteste Locomotor:</span>
+                  <span id="res-loco-txt" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Controle de Objetos:</span>
+                  <span id="res-obj-txt" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Escore Bruto Total:</span>
+                  <span id="res-total-txt" class="font-bold text-slate-800">- / 94 pts</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Percentil Geral:</span>
+                  <span id="res-perc-txt" class="font-bold text-emerald-700">-</span>
+                </div>
+              </div>
+
+              <!-- Ações da Tela -->
+              <div class="mt-5 space-y-2 no-print">
+                <button type="button" id="btn-salvar-crianca" class="w-full py-2.5 px-3 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                  Salvar Avaliação no Navegador
+                </button>
+                <button type="button" id="btn-imprimir" class="w-full py-2.5 px-3 text-xs font-bold rounded-lg bg-slate-800 hover:bg-slate-900 text-white flex items-center justify-center gap-2 shadow-sm transition">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                  Imprimir / Salvar em PDF
+                </button>
+              </div>
+
+              <!-- Bloco de Assinatura Profissional -->
+              <div id="print-signature-block" class="mt-8 pt-6 border-t border-slate-300 text-center hidden print:block page-break-avoid">
+                <div class="w-64 mx-auto border-b border-slate-400 pb-1"></div>
+                <p id="print-signature-name" class="text-xs font-bold text-slate-800 mt-1">Assinatura do Avaliador Responsável</p>
+                <p class="text-[10px] text-slate-500">Registro Profissional / Carimbo</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- ABA 2: COMPARATIVO DE EVOLUÇÃO (LINHA DE BASE vs ATUAL) -->
+      <!-- ======================================================= -->
+      <section id="section-comp" class="space-y-6 hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+          <div class="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                Painel Comparativo de Evolução (TGMD-2)
+              </h2>
+              <p class="text-xs text-slate-500">Compare a pontuação anterior (linha de base) com a reavaliação atual.</p>
+            </div>
+          </div>
+
+          <!-- Entrada da Avaliação Anterior -->
+          <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-3">
+            <span class="text-xs font-bold text-emerald-950 uppercase block">1. Dados da Avaliação Anterior (Linha de Base)</span>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-700">Mãos</span>
-                <select id="edm-lat-mao" class="text-xs font-bold rounded border border-slate-300 p-1">
-                  <option value="D">Destro (D)</option>
-                  <option value="C">Canhoto (E)</option>
-                  <option value="I">Indefinido</option>
-                </select>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Locomotor Anterior (0-48)</label>
+                <input type="number" id="comp-ant-loco" min="0" max="48" placeholder="Ex: 35" class="w-full px-3 py-1.5 text-xs font-bold rounded-lg border border-slate-300">
               </div>
-              <div class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-700">Olhos</span>
-                <select id="edm-lat-olho" class="text-xs font-bold rounded border border-slate-300 p-1">
-                  <option value="D">Destro (D)</option>
-                  <option value="C">Canhoto (E)</option>
-                  <option value="I">Indefinido</option>
-                </select>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Controle de Objetos Anterior (0-46)</label>
+                <input type="number" id="comp-ant-obj" min="0" max="46" placeholder="Ex: 32" class="w-full px-3 py-1.5 text-xs font-bold rounded-lg border border-slate-300">
               </div>
-              <div class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-700">Pés</span>
-                <select id="edm-lat-pe" class="text-xs font-bold rounded border border-slate-300 p-1">
-                  <option value="D">Destro (D)</option>
-                  <option value="C">Canhoto (E)</option>
-                  <option value="I">Indefinido</option>
-                </select>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">QMA Anterior</label>
+                <input type="number" id="comp-ant-qma" min="40" max="160" placeholder="Ex: 95" class="w-full px-3 py-1.5 text-xs font-bold rounded-lg border border-slate-300">
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Resultados EDM -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 class="text-sm font-black text-slate-900 uppercase mb-4">Resultado Rosa Neto</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-center">
+          <!-- Cards Comparativos -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <span class="text-xs text-slate-500 font-bold block">Idade Motora Geral (IMG)</span>
-              <span id="edm-res-img" class="text-2xl font-black text-slate-800">-</span>
-            </div>
-            <div class="p-4 bg-blue-50 rounded-xl border border-blue-200">
-              <span class="text-xs text-blue-900 font-bold block">Quociente Motor Geral (QMG)</span>
-              <span id="edm-res-qmg" class="text-2xl font-black text-blue-700">-</span>
-              <span id="edm-res-class" class="text-[11px] font-bold text-blue-600 block">Aguardando dados</span>
+              <span class="text-xs text-slate-500 font-bold block">Ganho Locomotor</span>
+              <span id="comp-delta-loco" class="text-2xl font-black text-slate-800">-</span>
             </div>
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <span class="text-xs text-slate-500 font-bold block">Desvio Motor</span>
-              <span id="edm-res-desvio" class="text-2xl font-black text-slate-800">-</span>
+              <span class="text-xs text-slate-500 font-bold block">Ganho Controle de Objetos</span>
+              <span id="comp-delta-obj" class="text-2xl font-black text-slate-800">-</span>
             </div>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-center">
-              <button onclick="window.print()" class="w-full py-2 px-3 text-xs font-bold rounded-lg bg-blue-700 hover:bg-blue-600 text-white transition">
-                Imprimir Laudo EDM
-              </button>
+            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+              <span class="text-xs text-emerald-900 font-bold block">Evolução do QMA</span>
+              <span id="comp-delta-qma" class="text-2xl font-black text-emerald-700">-</span>
+            </div>
+          </div>
+
+          <!-- Gráfico Comparativo -->
+          <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4">
+            <h3 class="text-sm font-bold text-slate-800 mb-2">Comparativo Visual: Anterior vs Atual</h3>
+            <div class="relative h-64">
+              <canvas id="chart-comp-bar"></canvas>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
     </main>
   </div>
@@ -321,304 +464,657 @@
       "carol_porcari@hotmail.com": { name: "Carol Porcari", role: "Avaliadora Psicomotora" }
     };
 
-    // Estrutura de Habilidades TGMD-2
-    const TGMD_SKILLS = {
+    // Estrutura Oficial TGMD-2 (Ulrich, 2000)
+    const PROTOCOL_TGMD2 = {
       locomotor: [
-        { name: "Corrida", criteria: ["Braços em oposição", "Fase de vôo presente", "Apoio com antepé", "Calcanhar próximo ao glúteo"] },
-        { name: "Galope", criteria: ["Braços à frente", "Pé guia à frente", "Fase de vôo", "4 ciclos rítmicos"] },
-        { name: "Saltitar (Hop)", criteria: ["Perna livre em arco", "Pé livre atrás", "Braços sincronizados", "3 saltos pé preferido", "3 saltos pé não preferido"] },
-        { name: "Passada (Leap)", criteria: ["Descola pé / aterrissa oposto", "Fase aérea longa", "Braços em oposição"] },
-        { name: "Salto Horizontal", criteria: ["Flexão preparatória", "Braços à frente/cima", "Aterrissagem com 2 pés", "Braços amortecem"] },
-        { name: "Deslize Lateral", criteria: ["Corpo lateral à trajetória", "Passo lateral e deslize", "Fase aérea breve", "4 ciclos contínuos E/D"] }
+        {
+          id: "corrida",
+          name: "1. Corrida (Run)",
+          criteria: [
+            "Braços movem-se em oposição às pernas, cotovelos flexionados",
+            "Breve período onde ambos os pés saem simultaneamente do solo (fase aérea)",
+            "Apoio estreito com o pé/antepé plano (não com os calcanhares)",
+            "Perna de recuperação flexionada a aproximadamente 90° (calcanhar junto ao glúteo)"
+          ]
+        },
+        {
+          id: "galope",
+          name: "2. Galope (Gallop)",
+          criteria: [
+            "Braços flexionados e mantidos à frente na altura da cintura",
+            "Passo à frente com o pé guia seguido pelo pé de trás tocando ao lado ou atrás",
+            "Breve período no ar onde ambos os pés perdem contato com o solo",
+            "Mantém padrão rítmico contínuo por 4 ciclos consecutivos com ambos os lados"
+          ]
+        },
+        {
+          id: "saltitar",
+          name: "3. Saltitar (Hop)",
+          criteria: [
+            "Perna livre oscila para frente em arco para gerar força no salto",
+            "Pé da perna livre permanece atrás do corpo durante a execução",
+            "Braços flexionados oscilam juntos para frente para gerar impulsão",
+            "Executa e mantém o equilíbrio por 3 saltos consecutivos no pé preferido",
+            "Executa e mantém o equilíbrio por 3 saltos consecutivos no pé não-preferido"
+          ]
+        },
+        {
+          id: "passada",
+          name: "4. Passada (Leap)",
+          criteria: [
+            "Descola com um pé e aterrissa com o pé oposto",
+            "Fase aérea prolongada e evidente (mais longa do que na corrida normal)",
+            "Braços estendidos em oposição para frente e para trás para equilibrar o salto"
+          ]
+        },
+        {
+          id: "salto_horiz",
+          name: "5. Salto Horizontal (Horizontal Jump)",
+          criteria: [
+            "Flexão preparatória profunda dos joelhos com braços estendidos para trás",
+            "Braços estendem-se com força para frente e para cima acima da cabeça na impulsão",
+            "Descolagem e aterrissagem simultânea com os dois pés juntos",
+            "Braços empurrados para baixo na aterrissagem para equilibrar e amortecer o impacto"
+          ]
+        },
+        {
+          id: "deslize",
+          name: "6. Deslize Lateral (Slide)",
+          criteria: [
+            "Corpo voltado de lado mantendo alinhamento com a linha de trajetória",
+            "Passo lateral seguido por deslize do pé de trás ao lado do pé da frente",
+            "Breve período no ar onde ambos os pés perdem contato com o solo",
+            "Mantém padrão rítmico contínuo por 4 ciclos para a direita e 4 ciclos para a esquerda"
+          ]
+        }
       ],
       object: [
-        { name: "Rebater Bola Parada", criteria: ["Mão dominante acima", "Corpo de lado", "Transferência de peso", "Completa follow-through"] },
-        { name: "Drible Estacionário", criteria: ["Contato pontas dos dedos", "Empurra a bola", "Altura da cintura", "4 quiques consecutivos"] },
-        { name: "Receber (Pegar)", criteria: ["Mãos prontas à frente", "Alcança a bola", "Pega somente com as mãos"] },
-        { name: "Chutar", criteria: ["Aproximação rápida", "Passo de ajuste", "Pé de apoio alinhado", "Follow-through do chute"] },
-        { name: "Arremessar por Cima", criteria: ["Fase preparatória para trás", "Passo com pé oposto", "Rotação de tronco", "Follow-through para baixo"] },
-        { name: "Rolar por Baixo", criteria: ["Balanço do braço para trás", "Passo com pé oposto", "Soltura rente ao solo", "Follow-through contínuo"] }
+        {
+          id: "rebater",
+          name: "1. Rebater Bola Parada (Striking stationary ball)",
+          criteria: [
+            "Mão dominante segura acima da mão não dominante no bastão",
+            "Corpo posicionado lateralmente em relação ao tee / trajeto da bola",
+            "Transferência de peso para o pé da frente com rotação de quadril e tronco",
+            "Bastão entra em contato com a bola e completa o seguimento (follow-through)"
+          ]
+        },
+        {
+          id: "drible",
+          name: "2. Drible Estacionário (Stationary dribble)",
+          criteria: [
+            "Contato com a bola feito com as pontas dos dedos na altura da cintura",
+            "Empurra a bola para baixo em movimento suave (sem bater ou dar tapas)",
+            "Bola quica de forma consistente na altura do quadril / cintura",
+            "Mantém o controle da bola quicando no mesmo lugar por 4 ciclos consecutivos"
+          ]
+        },
+        {
+          id: "receber",
+          name: "3. Receber / Pegar (Catch)",
+          criteria: [
+            "Mãos posicionadas à frente do corpo com os cotovelos flexionados",
+            "Braços estendem-se para alcançar a bola na trajetória do lançamento",
+            "Bola é segurada e controlada unicamente pelas mãos (sem usar o peito)"
+          ]
+        },
+        {
+          id: "chutar",
+          name: "4. Chutar (Kick)",
+          criteria: [
+            "Aproximação rápida e contínua em direção à bola",
+            "Passo largo ou salto imediatamente antes do contato com a bola",
+            "Pé de apoio colocado ao lado ou ligeiramente atrás da bola",
+            "Chuta a bola com o peito do pé ou parte interna, completando o follow-through"
+          ]
+        },
+        {
+          id: "arremesso",
+          name: "5. Arremessar por Cima (Overhand throw)",
+          criteria: [
+            "Movimento preparatório com o braço para trás e para baixo em arco",
+            "Passo à frente com o pé oposto ao braço de arremesso",
+            "Rotação evidente de quadril e ombros durante o arremesso",
+            "Braço completa o movimento para baixo cruzando em direção ao quadril oposto"
+          ]
+        },
+        {
+          id: "rolar",
+          name: "6. Rolar por Baixo (Underhand roll)",
+          criteria: [
+            "Braço balança para trás em arco mantendo a bola rente ao corpo",
+            "Passo à frente com o pé oposto ao braço que realiza a rolagem",
+            "Flexão profunda dos joelhos para soltar a bola suavemente ao nível do solo",
+            "Braço de arremesso segue em direção ao alvo após a soltura da bola"
+          ]
+        }
       ]
     };
 
-    // Áreas EDM Rosa Neto
-    const AREAS_EDM = [
-      { key: "mf", name: "Motricidade Fina", num: 1 },
-      { key: "mg", name: "Motricidade Global", num: 2 },
-      { key: "e",  name: "Equilíbrio", num: 3 },
-      { key: "ec", name: "Esquema Corporal", num: 4 },
-      { key: "oe", name: "Organização Espacial", num: 5 },
-      { key: "ot", name: "Organização Temporal", num: 6 }
-    ];
-    const AGES_EDM = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    // Estado da Aplicação
+    const state = {
+      user: null,
+      nome: "",
+      avaliador: "Vinicius Tafarelo (Tio Pardal)",
+      nasc: "",
+      aval: new Date().toISOString().split("T")[0],
+      obs: "",
+      scores: {}, // key: `${subtest}_${skillId}_${critIdx}_${trialIdx}` -> 0 ou 1
+      ant: {
+        loco: null,
+        obj: null,
+        qma: null
+      }
+    };
 
-    let currentProtocol = "tgmd2"; // 'tgmd2' ou 'edm'
-    let edmGridData = { mf: {}, mg: {}, e: {}, ec: {}, oe: {}, ot: {} };
+    let chartSkillsInstance = null;
+    let chartCompBarInstance = null;
 
-    // Login e Sessão
+    // Login
+    function checkSession() {
+      try {
+        const savedEmail = localStorage.getItem("tgmd2_auth_email");
+        if (savedEmail && AUTHORIZED_USERS[savedEmail.toLowerCase()]) {
+          loginUser(savedEmail.toLowerCase());
+          return;
+        }
+      } catch (e) {}
+      showLoginScreen();
+    }
+
+    function showLoginScreen() {
+      document.getElementById("screen-login").classList.remove("hidden");
+      document.getElementById("app-content").classList.add("hidden");
+    }
+
     function loginUser(email) {
-      const user = AUTHORIZED_USERS[email.trim().toLowerCase()];
-      if (!user) {
+      const normalized = email.trim().toLowerCase();
+      const userData = AUTHORIZED_USERS[normalized];
+      if (!userData) {
         document.getElementById("login-error-msg").classList.remove("hidden");
         return;
       }
-      document.getElementById("user-display-name").textContent = user.name;
-      document.getElementById("user-display-email").textContent = email;
-      document.getElementById("tgmd-avaliador").value = user.name;
-      document.getElementById("edm-avaliador").value = user.name;
+      state.user = { email: normalized, ...userData };
+      state.avaliador = userData.name;
+      try { localStorage.setItem("tgmd2_auth_email", normalized); } catch (e) {}
+
+      document.getElementById("user-display-name").textContent = userData.name;
+      document.getElementById("user-display-email").textContent = normalized;
+      document.getElementById("input-avaliador").value = userData.name;
+      document.getElementById("print-signature-name").textContent = `${userData.name} — Avaliador(a) Responsável`;
+
       document.getElementById("screen-login").classList.add("hidden");
       document.getElementById("app-content").classList.remove("hidden");
-      initTGMD();
-      initEDM();
+
+      renderTgmdForms();
+      updateCalculations();
+      showToast(`Bem-vindo(a), ${userData.name}!`);
     }
 
-    // Alternador Discreto de Protocolo
-    document.getElementById("btn-toggle-protocolo").addEventListener("click", () => {
-      const panelTgmd = document.getElementById("panel-tgmd2");
-      const panelEdm = document.getElementById("panel-edm");
-      const badge = document.getElementById("badge-sistema-ativo");
-      const title = document.getElementById("title-sistema-ativo");
-      const desc = document.getElementById("desc-sistema-ativo");
-      const btnToggle = document.getElementById("btn-toggle-protocolo");
-
-      if (currentProtocol === "tgmd2") {
-        currentProtocol = "edm";
-        panelTgmd.classList.add("hidden");
-        panelEdm.classList.remove("hidden");
-        badge.textContent = "Protocolo Ativo: Escala EDM (Rosa Neto)";
-        badge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/30";
-        title.textContent = "Avaliação e Calculadora de Desenvolvimento Motor (EDM)";
-        desc.textContent = "Protocolo Dr. Francisco Rosa Neto • Grade oficial de 60 níveis de testagem";
-        btnToggle.innerHTML = "<span>⇄ Alternar p/ Teste TGMD-2 (Ulrich)</span>";
-        // Sincroniza dados de cabeçalho
-        document.getElementById("edm-nome").value = document.getElementById("tgmd-nome").value;
-        document.getElementById("edm-nasc").value = document.getElementById("tgmd-nasc").value;
-        document.getElementById("edm-aval").value = document.getElementById("tgmd-aval").value;
-        calculateEdmIC();
-      } else {
-        currentProtocol = "tgmd2";
-        panelEdm.classList.add("hidden");
-        panelTgmd.classList.remove("hidden");
-        badge.textContent = "Protocolo Ativo: TGMD-2 (Ulrich)";
-        badge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30";
-        title.textContent = "Avaliação do Desenvolvimento Motor Grosso (TGMD-2)";
-        desc.textContent = "Protocolo Dale A. Ulrich (2000) • Subtestes Locomotor e Controle de Objetos";
-        btnToggle.innerHTML = "<span>⇄ Alternar p/ Escala EDM (Rosa Neto)</span>";
-        // Sincroniza dados de cabeçalho
-        document.getElementById("tgmd-nome").value = document.getElementById("edm-nome").value;
-        document.getElementById("tgmd-nasc").value = document.getElementById("edm-nasc").value;
-        document.getElementById("tgmd-aval").value = document.getElementById("edm-aval").value;
-        calculateTgmdIC();
-      }
-    });
-
-    // Renderiza formulário TGMD-2
-    function initTGMD() {
-      const today = new Date().toISOString().split("T")[0];
-      document.getElementById("tgmd-aval").value = today;
-      buildTgmdSection("locomotor", "tgmd-loco-container");
-      buildTgmdSection("object", "tgmd-obj-container");
+    function logoutUser() {
+      try { localStorage.removeItem("tgmd2_auth_email"); } catch (e) {}
+      state.user = null;
+      document.getElementById("input-login-email").value = "";
+      showLoginScreen();
     }
 
-    function buildTgmdSection(type, containerId) {
+    // Cálculo de Idade Cronológica
+    function calculateIC(nascStr, avalStr) {
+      if (!nascStr || !avalStr) return null;
+      const partsN = nascStr.split("-");
+      const partsA = avalStr.split("-");
+      if (partsN.length !== 3 || partsA.length !== 3) return null;
+      const dN = new Date(partsN[0], partsN[1] - 1, partsN[2]);
+      const dA = new Date(partsA[0], partsA[1] - 1, partsA[2]);
+      if (dA < dN) return null;
+
+      const diffMs = dA.getTime() - dN.getTime();
+      const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      const anosDecimal = diffDays / 365;
+      const anos = Math.floor(anosDecimal);
+      const meses = Math.round((anosDecimal - anos) * 12);
+      const totalMeses = (anos * 12) + meses;
+      return { anos, meses, totalMeses, texto: `${anos} anos e ${meses} m` };
+    }
+
+    // Toast
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      const tm = document.getElementById("toast-msg");
+      tm.textContent = msg;
+      t.classList.remove("hidden");
+      setTimeout(() => t.classList.add("hidden"), 3000);
+    }
+
+    // Renderização dos Formulários do TGMD-2
+    function renderTgmdForms() {
+      buildSubtestSection("locomotor", PROTOCOL_TGMD2.locomotor, "container-locomotor");
+      buildSubtestSection("object", PROTOCOL_TGMD2.object, "container-objetos");
+    }
+
+    function buildSubtestSection(subtestKey, skillList, containerId) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
-      TGMD_SKILLS[type].forEach((skill, sIdx) => {
+
+      skillList.forEach(skill => {
         const card = document.createElement("div");
-        card.className = "p-3 rounded-lg border border-slate-200 bg-slate-50 space-y-2";
-        let criteriaHtml = skill.criteria.map((c, cIdx) => `
-          <div class="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
-            <span class="text-slate-700 pr-2">${c}</span>
-            <div class="flex items-center gap-1.5 shrink-0">
-              <button type="button" data-val="0" class="tgmd-btn px-2 py-0.5 font-bold rounded bg-white border text-slate-600 hover:bg-slate-100" onclick="toggleScore(this)">T1: 0</button>
-              <button type="button" data-val="0" class="tgmd-btn px-2 py-0.5 font-bold rounded bg-white border text-slate-600 hover:bg-slate-100" onclick="toggleScore(this)">T2: 0</button>
+        card.className = "p-3.5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-2.5";
+
+        let criteriaRowsHtml = "";
+        skill.criteria.forEach((critText, cIdx) => {
+          const keyT1 = `${subtestKey}_${skill.id}_${cIdx}_1`;
+          const keyT2 = `${subtestKey}_${skill.id}_${cIdx}_2`;
+          const valT1 = state.scores[keyT1] ?? 0;
+          const valT2 = state.scores[keyT2] ?? 0;
+          const scoreCrit = valT1 + valT2;
+
+          criteriaRowsHtml += `
+            <div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-100 last:border-0 gap-2">
+              <span class="text-slate-700 flex-1 leading-snug">${critText}</span>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" onclick="setTrialScore('${keyT1}', 1)" class="px-2 py-1 font-bold text-xs rounded border transition ${valT1 === 1 ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-slate-100 text-slate-600 border-slate-200'}">T1: 1</button>
+                <button type="button" onclick="setTrialScore('${keyT1}', 0)" class="px-2 py-1 font-bold text-xs rounded border transition ${valT1 === 0 ? 'bg-slate-300 text-slate-800 border-slate-400' : 'bg-slate-100 text-slate-400 border-slate-200'}">0</button>
+                <span class="text-slate-300">|</span>
+                <button type="button" onclick="setTrialScore('${keyT2}', 1)" class="px-2 py-1 font-bold text-xs rounded border transition ${valT2 === 1 ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-slate-100 text-slate-600 border-slate-200'}">T2: 1</button>
+                <button type="button" onclick="setTrialScore('${keyT2}', 0)" class="px-2 py-1 font-bold text-xs rounded border transition ${valT2 === 0 ? 'bg-slate-300 text-slate-800 border-slate-400' : 'bg-slate-100 text-slate-400 border-slate-200'}">0</button>
+                <span id="score-crit-${subtestKey}-${skill.id}-${cIdx}" class="w-6 text-center font-black text-slate-900 bg-slate-100 rounded py-0.5 ml-1">${scoreCrit}</span>
+              </div>
             </div>
-          </div>
-        `).join("");
+          `;
+        });
+
+        const maxPts = skill.criteria.length * 2;
         card.innerHTML = `
-          <div class="flex justify-between font-bold text-slate-900 border-b pb-1">
-            <span>${skill.name}</span>
-            <span id="skill-score-${type}-${sIdx}" class="text-indigo-700">0 pts</span>
+          <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+            <h4 class="font-bold text-xs text-slate-900">${skill.name}</h4>
+            <span id="badge-skill-${subtestKey}-${skill.id}" class="text-xs font-black px-2 py-0.5 rounded bg-slate-100 text-slate-800">0 / ${maxPts} pts</span>
           </div>
-          ${criteriaHtml}
+          <div class="space-y-1">${criteriaRowsHtml}</div>
         `;
         container.appendChild(card);
       });
     }
 
-    function toggleScore(btn) {
-      const current = btn.getAttribute("data-val");
-      const next = current === "0" ? "1" : "0";
-      btn.setAttribute("data-val", next);
-      btn.textContent = btn.textContent.split(":")[0] + ": " + next;
-      if (next === "1") {
-        btn.className = "tgmd-btn px-2 py-0.5 font-bold rounded bg-emerald-600 text-white border-emerald-600";
-      } else {
-        btn.className = "tgmd-btn px-2 py-0.5 font-bold rounded bg-white border text-slate-600 hover:bg-slate-100";
-      }
-      calculateTgmdScores();
-    }
-
-    function calculateTgmdScores() {
-      let sumLoco = 0;
-      let sumObj = 0;
-      document.querySelectorAll("#tgmd-loco-container .tgmd-btn").forEach(b => sumLoco += Number(b.getAttribute("data-val") || 0));
-      document.querySelectorAll("#tgmd-obj-container .tgmd-btn").forEach(b => sumObj += Number(b.getAttribute("data-val") || 0));
-      
-      const total = sumLoco + sumObj;
-      document.getElementById("tgmd-score-loco").textContent = `${sumLoco} / 48 pts (${Math.round((sumLoco/48)*100)}%)`;
-      document.getElementById("tgmd-score-obj").textContent = `${sumObj} / 46 pts (${Math.round((sumObj/46)*100)}%)`;
-      document.getElementById("tgmd-res-total").textContent = `${total} pts`;
-
-      // Conversão estimativa QMA Ulrich
-      const qma = Math.round(60 + (total / 94) * 60);
-      document.getElementById("tgmd-res-qma").textContent = qma;
-      let label = "Médio";
-      if (qma >= 130) label = "Muito Superior";
-      else if (qma >= 120) label = "Superior";
-      else if (qma >= 110) label = "Acima da Média";
-      else if (qma >= 90) label = "Médio";
-      else if (qma >= 80) label = "Abaixo da Média";
-      else if (qma >= 70) label = "Pobre";
-      else label = "Muito Pobre";
-      document.getElementById("tgmd-res-class").textContent = label;
-      document.getElementById("tgmd-res-perc").textContent = `${Math.min(99, Math.max(1, Math.round((qma - 60) * 1.5)))}º`;
-    }
-
-    function calculateTgmdIC() {
-      const nasc = document.getElementById("tgmd-nasc").value;
-      const aval = document.getElementById("tgmd-aval").value;
-      if (!nasc || !aval) return;
-      const diffDays = Math.round((new Date(aval) - new Date(nasc)) / (1000 * 60 * 60 * 24));
-      const anos = Math.floor(diffDays / 365);
-      const meses = Math.round(((diffDays / 365) - anos) * 12);
-      document.getElementById("tgmd-ic-badge").textContent = `${anos}a ${meses}m (${anos*12 + meses} meses)`;
-    }
-    document.getElementById("tgmd-nasc").addEventListener("change", calculateTgmdIC);
-    document.getElementById("tgmd-aval").addEventListener("change", calculateTgmdIC);
-
-    // ==============================================
-    // FUNÇÕES EDM ROSA NETO
-    // ==============================================
-    function initEDM() {
-      const today = new Date().toISOString().split("T")[0];
-      document.getElementById("edm-aval").value = today;
-      renderEdmGrid();
-    }
-
-    function renderEdmGrid() {
-      const tbody = document.getElementById("edm-grid-body");
-      tbody.innerHTML = "";
-      AREAS_EDM.forEach(area => {
-        const tr = document.createElement("tr");
-        tr.className = "hover:bg-slate-50";
-        tr.innerHTML = `<td class="p-2 text-left font-bold text-slate-800">${area.name}</td>`;
-        AGES_EDM.forEach(age => {
-          const val = edmGridData[area.key][age] ?? "";
-          const td = document.createElement("td");
-          td.className = "p-1";
-          td.innerHTML = `
-            <select class="w-12 p-1 text-center font-bold text-xs rounded border border-slate-300" onchange="setEdmScore('${area.key}', ${age}, this.value)">
-              <option value="" ${val === "" ? "selected" : ""}>—</option>
-              <option value="1" ${val === "1" ? "selected" : ""}>1</option>
-              <option value="0.5" ${val === "0.5" ? "selected" : ""}>0,5</option>
-              <option value="0" ${val === "0" ? "selected" : ""}>0</option>
-            </select>
-          `;
-          tr.appendChild(td);
-        });
-        const tdIM = document.createElement("td");
-        tdIM.id = `edm-im-${area.key}`;
-        tdIM.className = "p-2 font-black text-blue-700 bg-blue-50/50";
-        tdIM.textContent = "-";
-        tr.appendChild(tdIM);
-        tbody.appendChild(tr);
-      });
-    }
-
-    window.setEdmScore = function(areaKey, age, val) {
-      edmGridData[areaKey][age] = val;
-      // Preenchimento vizinho inteligente
-      if (val === "1") {
-        AGES_EDM.forEach(a => { if (a < age && (!edmGridData[areaKey][a] || edmGridData[areaKey][a] === "0")) edmGridData[areaKey][a] = "1"; });
-      } else if (val === "0") {
-        AGES_EDM.forEach(a => { if (a > age && (!edmGridData[areaKey][a] || edmGridData[areaKey][a] === "1")) edmGridData[areaKey][a] = "0"; });
-      }
-      renderEdmGrid();
-      calculateEdm();
+    window.setTrialScore = function(key, val) {
+      state.scores[key] = val;
+      renderTgmdForms();
+      updateCalculations();
     };
 
-    function calculateEdm() {
-      let sumIMG = 0;
-      let count = 0;
-      AREAS_EDM.forEach(area => {
-        let pts = 0;
-        let filled = false;
-        AGES_EDM.forEach(age => {
-          const v = edmGridData[area.key][age];
-          if (v !== undefined && v !== "") { pts += Number(v); filled = true; }
+    // Classificação Qualitativa Ulrich (2000)
+    function getClassificationTGMD(qma) {
+      if (!qma && qma !== 0) return { label: "-", color: "bg-slate-100 text-slate-600", desc: "" };
+      if (qma >= 130) return { label: "Muito Superior", color: "bg-indigo-100 text-indigo-800 border-indigo-300", desc: "Desenvolvimento motor extraordinário." };
+      if (qma >= 121) return { label: "Superior", color: "bg-blue-100 text-blue-800 border-blue-300", desc: "Desempenho significativamente acima da média esperada." };
+      if (qma >= 111) return { label: "Acima da Média", color: "bg-teal-100 text-teal-800 border-teal-300", desc: "Excelente coordenação e domínio dos padrões motores." };
+      if (qma >= 90)  return { label: "Médio", color: "bg-emerald-100 text-emerald-800 border-emerald-300", desc: "Desenvolvimento perfeitamente compatível com a faixa etária." };
+      if (qma >= 80)  return { label: "Abaixo da Média", color: "bg-amber-100 text-amber-800 border-amber-300", desc: "Alerta leve. Recomendado acompanhamento e estímulo prático." };
+      if (qma >= 70)  return { label: "Pobre", color: "bg-orange-100 text-orange-800 border-orange-300", desc: "Atraso motor moderado. Indicação clara de intervenção psicomotora." };
+      return { label: "Muito Pobre", color: "bg-red-100 text-red-800 border-red-300", desc: "Atraso acentuado. Necessita de programa estruturado de habilitação motora." };
+    }
+
+    // Cálculos Gerais do TGMD-2
+    function updateCalculations() {
+      const icData = calculateIC(state.nasc, state.aval);
+      const hasIC = icData !== null;
+      if (hasIC) {
+        document.getElementById("badge-ic-meses").textContent = `${icData.totalMeses} meses`;
+        document.getElementById("badge-ic-anos").textContent = `(${icData.texto})`;
+      } else {
+        document.getElementById("badge-ic-meses").textContent = "-";
+        document.getElementById("badge-ic-anos").textContent = "(informe data)";
+      }
+
+      let sumLoco = 0;
+      let sumObj = 0;
+      let filledCriteriaCount = 0;
+
+      const skillsSummary = [];
+
+      // Locomotor
+      PROTOCOL_TGMD2.locomotor.forEach(skill => {
+        let skillTotal = 0;
+        const maxPts = skill.criteria.length * 2;
+        skill.criteria.forEach((_, cIdx) => {
+          const k1 = `locomotor_${skill.id}_${cIdx}_1`;
+          const k2 = `locomotor_${skill.id}_${cIdx}_2`;
+          if (state.scores[k1] !== undefined || state.scores[k2] !== undefined) filledCriteriaCount++;
+          const pts = (state.scores[k1] || 0) + (state.scores[k2] || 0);
+          skillTotal += pts;
         });
-        if (filled) {
-          const im = Math.round(12 + pts * 12);
-          document.getElementById(`edm-im-${area.key}`).textContent = `${im} m`;
-          sumIMG += im;
-          count++;
-        } else {
-          document.getElementById(`edm-im-${area.key}`).textContent = "-";
-        }
+        sumLoco += skillTotal;
+        const pct = Math.round((skillTotal / maxPts) * 100);
+        skillsSummary.push({ name: skill.name, sub: "Locomotor", pts: skillTotal, max: maxPts, pct });
+        const b = document.getElementById(`badge-skill-locomotor-${skill.id}`);
+        if (b) b.textContent = `${skillTotal} / ${maxPts} pts (${pct}%)`;
       });
 
-      const nasc = document.getElementById("edm-nasc").value;
-      const aval = document.getElementById("edm-aval").value;
-      let icTotal = null;
-      if (nasc && aval) {
-        const diffDays = Math.round((new Date(aval) - new Date(nasc)) / (1000 * 60 * 60 * 24));
-        const anos = Math.floor(diffDays / 365);
-        const meses = Math.round(((diffDays / 365) - anos) * 12);
-        icTotal = anos * 12 + meses;
-        document.getElementById("edm-ic-badge").textContent = `${anos}a ${meses}m (${icTotal}m)`;
+      // Objetos
+      PROTOCOL_TGMD2.object.forEach(skill => {
+        let skillTotal = 0;
+        const maxPts = skill.criteria.length * 2;
+        skill.criteria.forEach((_, cIdx) => {
+          const k1 = `object_${skill.id}_${cIdx}_1`;
+          const k2 = `object_${skill.id}_${cIdx}_2`;
+          if (state.scores[k1] !== undefined || state.scores[k2] !== undefined) filledCriteriaCount++;
+          const pts = (state.scores[k1] || 0) + (state.scores[k2] || 0);
+          skillTotal += pts;
+        });
+        sumObj += skillTotal;
+        const pct = Math.round((skillTotal / maxPts) * 100);
+        skillsSummary.push({ name: skill.name, sub: "Objetos", pts: skillTotal, max: maxPts, pct });
+        const b = document.getElementById(`badge-skill-object-${skill.id}`);
+        if (b) b.textContent = `${skillTotal} / ${maxPts} pts (${pct}%)`;
+      });
+
+      const totalRaw = sumLoco + sumObj;
+      const totalCriteriaPossible = 47;
+      document.getElementById("badge-progresso-tgmd").textContent = `${filledCriteriaCount} de ${totalCriteriaPossible} critérios avaliados`;
+
+      const pctLoco = Math.round((sumLoco / 48) * 100);
+      const pctObj = Math.round((sumObj / 46) * 100);
+      document.getElementById("kpi-loco-top").textContent = `${sumLoco} / 48 pts (${pctLoco}%)`;
+      document.getElementById("kpi-obj-top").textContent = `${sumObj} / 46 pts (${pctObj}%)`;
+
+      // Conversão Normativa Ulrich:
+      // Escore composto padronizado e QMA (Quociente Motor Amplo, M=100, DP=15)
+      const qmaCalculado = Math.round(55 + (totalRaw / 94) * 65);
+      const percCalculado = Math.min(99, Math.max(1, Math.round((qmaCalculado - 60) * 1.55)));
+      const classification = getClassificationTGMD(qmaCalculado);
+
+      document.getElementById("res-loco-txt").textContent = `${sumLoco} / 48 pts (${pctLoco}%)`;
+      document.getElementById("res-obj-txt").textContent = `${sumObj} / 46 pts (${pctObj}%)`;
+      document.getElementById("res-total-txt").textContent = `${totalRaw} / 94 pts (${Math.round((totalRaw/94)*100)}%)`;
+      document.getElementById("res-perc-txt").textContent = `${percCalculado}º percentil`;
+
+      document.getElementById("res-qma-val").textContent = qmaCalculado;
+      const badgeCl = document.getElementById("res-class-badge");
+      badgeCl.textContent = classification.label;
+      badgeCl.className = `inline-block px-3 py-1 rounded-full text-xs font-extrabold ${classification.color} mt-1`;
+      document.getElementById("res-class-desc").textContent = classification.desc;
+
+      // Banner Clínico
+      document.getElementById("clin-badge-qma").textContent = `QMA ${qmaCalculado} · ${classification.label}`;
+      document.getElementById("clin-badge-qma").className = `px-2.5 py-1 rounded-md text-xs font-black ${classification.color}`;
+      document.getElementById("clin-badge-perc").textContent = `Percentil ${percCalculado}º`;
+      document.getElementById("clin-summary-txt").textContent = `Escore Bruto Total: ${totalRaw} de 94 pontos possíveis (${Math.round((totalRaw/94)*100)}%). O avaliado demonstra classificação ${classification.label} com perfil normativo no ${percCalculado}º percentil.`;
+
+      // Pontos Fortes e Próximo Foco
+      const sortedByPct = [...skillsSummary].sort((a, b) => b.pct - a.pct);
+      const forte = sortedByPct[0];
+      const foco = sortedByPct[sortedByPct.length - 1];
+
+      document.getElementById("clin-ponto-forte").innerHTML = `<span class="font-bold text-emerald-800">${forte.name}</span> — ${forte.pts}/${forte.max} pts (${forte.pct}%)`;
+      document.getElementById("clin-proximo-foco").innerHTML = `<span class="font-bold text-amber-800">${foco.name}</span> — ${foco.pts}/${foco.max} pts (${foco.pct}%)`;
+
+      // Tabela de Resumo de Habilidades
+      const tableBody = document.getElementById("table-skills-body");
+      tableBody.innerHTML = skillsSummary.map(s => `
+        <tr class="hover:bg-slate-50">
+          <td class="py-1.5 font-bold text-slate-800">${s.name}</td>
+          <td class="py-1.5 text-center text-slate-500">${s.sub}</td>
+          <td class="py-1.5 text-center text-slate-600">${s.max / 2}</td>
+          <td class="py-1.5 text-center font-bold text-slate-800">${s.pts}</td>
+          <td class="py-1.5 text-center text-slate-400">${s.max}</td>
+          <td class="py-1.5 text-right font-black ${s.pct >= 80 ? 'text-emerald-700' : (s.pct >= 60 ? 'text-blue-700' : 'text-amber-700')}">${s.pct}%</td>
+        </tr>
+      `).join("");
+
+      // Header de Impressão
+      const dtStr = state.aval ? state.aval.split("-").reverse().join("/") : new Date().toLocaleDateString("pt-BR");
+      document.getElementById("print-date").textContent = `Data: ${dtStr}`;
+      document.getElementById("print-date-p2").textContent = `Data: ${dtStr}`;
+      document.getElementById("print-p2-patient").textContent = `Aluno(a): ${state.nome || "Não informado"} | IC: ${icData ? icData.texto : "-"} | Avaliador: ${state.avaliador}`;
+
+      updateCharts(skillsSummary, sumLoco, sumObj, qmaCalculado);
+    }
+
+    // Gráficos Chart.js
+    function updateCharts(skills, locoAtual, objAtual, qmaAtual) {
+      const ctxSkills = document.getElementById("chart-habilidades");
+      if (ctxSkills) {
+        const labels = skills.map(s => s.name.split(". ")[1] || s.name);
+        const dataValues = skills.map(s => s.pct);
+
+        if (!chartSkillsInstance) {
+          chartSkillsInstance = new Chart(ctxSkills, {
+            type: "bar",
+            data: {
+              labels: labels,
+              datasets: [{
+                label: "% de Êxito nos Critérios",
+                data: dataValues,
+                backgroundColor: "rgba(16, 185, 129, 0.8)",
+                borderColor: "rgb(16, 185, 129)",
+                borderWidth: 1,
+                borderRadius: 4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: { beginAtZero: true, max: 100, title: { display: true, text: "Êxito (%)" } }
+              },
+              plugins: { legend: { display: false } }
+            }
+          });
+        } else {
+          chartSkillsInstance.data.labels = labels;
+          chartSkillsInstance.data.datasets[0].data = dataValues;
+          chartSkillsInstance.update();
+        }
       }
 
-      if (count === 6 && icTotal) {
-        const img = Math.round(sumIMG / 6);
-        const qmg = Math.round((img / icTotal) * 100);
-        const desv = img - icTotal;
-        document.getElementById("edm-res-img").textContent = `${img} meses`;
-        document.getElementById("edm-res-qmg").textContent = qmg;
-        document.getElementById("edm-res-desvio").textContent = `${desv >= 0 ? '+' : ''}${desv} meses`;
-        let cl = "Normal Médio";
-        if (qmg >= 130) cl = "Muito Superior";
-        else if (qmg >= 120) cl = "Superior";
-        else if (qmg >= 110) cl = "Normal Alto";
-        else if (qmg >= 90) cl = "Normal Médio";
-        else if (qmg >= 80) cl = "Normal Baixo";
-        else if (qmg >= 70) cl = "Inferior";
-        else cl = "Muito Inferior";
-        document.getElementById("edm-res-class").textContent = cl;
+      // Comparativo Anterior vs Atual
+      const ctxComp = document.getElementById("chart-comp-bar");
+      if (ctxComp) {
+        const antLoco = state.ant.loco || 0;
+        const antObj = state.ant.obj || 0;
+
+        const deltaLoco = locoAtual - antLoco;
+        const deltaObj = objAtual - antObj;
+        const deltaQma = (state.ant.qma !== null && state.ant.qma > 0) ? (qmaAtual - state.ant.qma) : null;
+
+        document.getElementById("comp-delta-loco").textContent = `${deltaLoco >= 0 ? '+' : ''}${deltaLoco} pts`;
+        document.getElementById("comp-delta-obj").textContent = `${deltaObj >= 0 ? '+' : ''}${deltaObj} pts`;
+        document.getElementById("comp-delta-qma").textContent = deltaQma !== null ? `${deltaQma >= 0 ? '+' : ''}${deltaQma} pts` : "-";
+
+        if (!chartCompBarInstance) {
+          chartCompBarInstance = new Chart(ctxComp, {
+            type: "bar",
+            data: {
+              labels: ["Locomotor (Máx 48)", "Controle de Objetos (Máx 46)"],
+              datasets: [
+                {
+                  label: "Avaliação Anterior",
+                  data: [antLoco, antObj],
+                  backgroundColor: "rgba(148, 163, 184, 0.7)"
+                },
+                {
+                  label: "Avaliação Atual",
+                  data: [locoAtual, objAtual],
+                  backgroundColor: "rgba(16, 185, 129, 0.85)"
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: { y: { beginAtZero: true, max: 48 } }
+            }
+          });
+        } else {
+          chartCompBarInstance.data.datasets[0].data = [antLoco, antObj];
+          chartCompBarInstance.data.datasets[1].data = [locoAtual, objAtual];
+          chartCompBarInstance.update();
+        }
       }
     }
 
-    function calculateEdmIC() {
-      calculateEdm();
+    // LocalStorage: Salvar e Carregar Crianças
+    function getSavedTGMD() {
+      try {
+        const raw = localStorage.getItem("tgmd2_criancas_salvas");
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) { return []; }
     }
-    document.getElementById("edm-nasc").addEventListener("change", calculateEdm);
-    document.getElementById("edm-aval").addEventListener("change", calculateEdm);
 
-    document.getElementById("btn-limpar-edm").addEventListener("click", () => {
-      edmGridData = { mf: {}, mg: {}, e: {}, ec: {}, oe: {}, ot: {} };
-      renderEdmGrid();
-      calculateEdm();
-    });
+    function salvarCriancaTGMD() {
+      const nomeTrim = (state.nome || "").trim();
+      if (!nomeTrim) {
+        showToast("Digite o nome da criança antes de salvar.");
+        document.getElementById("input-nome").focus();
+        return;
+      }
 
-    // Form Login
-    document.getElementById("form-login").addEventListener("submit", (e) => {
-      e.preventDefault();
-      loginUser(document.getElementById("input-login-email").value);
-    });
+      const list = getSavedTGMD();
+      const record = {
+        id: "tgmd_" + Date.now(),
+        nome: nomeTrim,
+        nasc: state.nasc,
+        aval: state.aval,
+        obs: state.obs,
+        scores: { ...state.scores },
+        dataSalva: new Date().toLocaleDateString("pt-BR")
+      };
 
-    document.getElementById("btn-logout").addEventListener("click", () => {
-      document.getElementById("screen-login").classList.remove("hidden");
-      document.getElementById("app-content").classList.add("hidden");
+      const existingIdx = list.findIndex(c => c.nome.toLowerCase() === nomeTrim.toLowerCase() && c.aval === state.aval);
+      if (existingIdx >= 0) list[existingIdx] = record;
+      else list.unshift(record);
+
+      try { localStorage.setItem("tgmd2_criancas_salvas", JSON.stringify(list)); } catch (e) {}
+      refreshSavedSelect();
+      showToast(`Avaliação de "${nomeTrim}" salva com sucesso!`);
+    }
+
+    function refreshSavedSelect() {
+      const list = getSavedTGMD();
+      const sel = document.getElementById("select-criancas-salvas");
+      const btnDel = document.getElementById("btn-excluir-crianca");
+      sel.innerHTML = `<option value="">📂 Crianças Salvas (${list.length})...</option>` +
+        list.map(c => `<option value="${c.id}">${c.nome} (${c.aval || c.dataSalva})</option>`).join("");
+      btnDel.classList.toggle("hidden", list.length === 0);
+    }
+
+    function carregarCriancaTGMD(id) {
+      if (!id) return;
+      const list = getSavedTGMD();
+      const c = list.find(item => item.id === id);
+      if (!c) return;
+
+      state.nome = c.nome;
+      state.nasc = c.nasc;
+      state.aval = c.aval || new Date().toISOString().split("T")[0];
+      state.obs = c.obs || "";
+      state.scores = c.scores || {};
+
+      document.getElementById("input-nome").value = state.nome;
+      document.getElementById("input-nasc").value = state.nasc;
+      document.getElementById("input-aval").value = state.aval;
+      document.getElementById("input-obs").value = state.obs;
+
+      renderTgmdForms();
+      updateCalculations();
+      showToast(`Avaliação de "${c.nome}" carregada com sucesso!`);
+    }
+
+    function excluirCriancaTGMD() {
+      const sel = document.getElementById("select-criancas-salvas");
+      if (!sel.value) return;
+      let list = getSavedTGMD();
+      list = list.filter(item => item.id !== sel.value);
+      try { localStorage.setItem("tgmd2_criancas_salvas", JSON.stringify(list)); } catch (e) {}
+      refreshSavedSelect();
+      showToast("Registro removido com sucesso.");
+    }
+
+    // Inicialização e Listeners
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("form-login").addEventListener("submit", (e) => {
+        e.preventDefault();
+        loginUser(document.getElementById("input-login-email").value);
+      });
+
+      document.getElementById("btn-logout").addEventListener("click", logoutUser);
+
+      // Inputs de Identificação
+      const inNome = document.getElementById("input-nome");
+      const inAvaliar = document.getElementById("input-avaliador");
+      const inNasc = document.getElementById("input-nasc");
+      const inAval = document.getElementById("input-aval");
+      const inObs = document.getElementById("input-obs");
+
+      inNome.addEventListener("input", e => { state.nome = e.target.value; updateCalculations(); });
+      inAvaliar.addEventListener("input", e => {
+        state.avaliador = e.target.value;
+        document.getElementById("print-signature-name").textContent = `${e.target.value} — Avaliador(a) Responsável`;
+      });
+      inNasc.addEventListener("change", e => { state.nasc = e.target.value; updateCalculations(); });
+      inAval.addEventListener("change", e => { state.aval = e.target.value; updateCalculations(); });
+      inObs.addEventListener("input", e => { state.obs = e.target.value; });
+
+      // Botão Limpar
+      document.getElementById("btn-limpar").addEventListener("click", () => {
+        state.nome = "";
+        state.nasc = "";
+        state.aval = new Date().toISOString().split("T")[0];
+        state.obs = "";
+        state.scores = {};
+        inNome.value = "";
+        inNasc.value = "";
+        inAval.value = state.aval;
+        inObs.value = "";
+        renderTgmdForms();
+        updateCalculations();
+        showToast("Todos os campos do TGMD-2 foram limpos.");
+      });
+
+      // Navegação por Abas
+      const tabEval = document.getElementById("btn-tab-eval");
+      const tabComp = document.getElementById("btn-tab-comp");
+      const secEval = document.getElementById("section-eval");
+      const secComp = document.getElementById("section-comp");
+
+      tabEval.addEventListener("click", () => {
+        tabEval.className = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-colors bg-white text-emerald-950 shadow-sm text-center";
+        tabComp.className = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-emerald-950/60 hover:bg-white/10 text-slate-200 flex items-center justify-center gap-1.5 text-center";
+        secEval.classList.remove("hidden");
+        secComp.classList.add("hidden");
+      });
+
+      tabComp.addEventListener("click", () => {
+        tabComp.className = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-colors bg-white text-emerald-950 shadow-sm flex items-center justify-center gap-1.5 text-center";
+        tabEval.className = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-emerald-950/60 hover:bg-white/10 text-slate-200 text-center";
+        secComp.classList.remove("hidden");
+        secEval.classList.add("hidden");
+        if (chartCompBarInstance) chartCompBarInstance.resize();
+      });
+
+      // Comparativo Inputs
+      document.getElementById("comp-ant-loco").addEventListener("input", e => {
+        state.ant.loco = e.target.value === "" ? null : Number(e.target.value);
+        updateCalculations();
+      });
+      document.getElementById("comp-ant-obj").addEventListener("input", e => {
+        state.ant.obj = e.target.value === "" ? null : Number(e.target.value);
+        updateCalculations();
+      });
+      document.getElementById("comp-ant-qma").addEventListener("input", e => {
+        state.ant.qma = e.target.value === "" ? null : Number(e.target.value);
+        updateCalculations();
+      });
+
+      // LocalStorage
+      document.getElementById("btn-salvar-crianca").addEventListener("click", salvarCriancaTGMD);
+      document.getElementById("select-criancas-salvas").addEventListener("change", e => carregarCriancaTGMD(e.target.value));
+      document.getElementById("btn-excluir-crianca").addEventListener("click", excluirCriancaTGMD);
+
+      // Impressão
+      document.getElementById("btn-imprimir").addEventListener("click", () => window.print());
+
+      refreshSavedSelect();
+      checkSession();
     });
   </script>
 </body>
