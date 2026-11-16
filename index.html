@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora e Relatório TGMD-2 — Dale A. Ulrich</title>
+  <title>Sistema Motricidade — TGMD-2 & Banco de Wells</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
   <style>
@@ -14,8 +14,8 @@
       .page-break-avoid { break-inside: avoid !important; page-break-inside: avoid !important; }
       main { padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
       .overflow-x-auto { overflow: visible !important; }
-      #print-header, #print-header-p2 { display: block !important; }
-      #print-signature-block { display: block !important; }
+      #print-header, #print-header-p2, #print-header-wells { display: block !important; }
+      #print-signature-block, #print-signature-wells { display: block !important; }
       .print-page-break {
         page-break-before: always !important;
         break-before: page !important;
@@ -68,18 +68,18 @@
     <!-- Header Banner -->
     <header class="bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-900 text-white shadow-md no-print">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <div class="flex items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/30 text-emerald-200 border border-emerald-400/30">
+              <span id="header-protocol-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/30 text-emerald-200 border border-emerald-400/30">
                 Protocolo TGMD-2 • Dale A. Ulrich (2000)
               </span>
               <span class="text-xs text-slate-300">Padrão Oficial Sistema Motricidade</span>
             </div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">
+            <h1 id="header-main-title" class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">
               Avaliação do Desenvolvimento Motor Grosso (TGMD-2)
             </h1>
-            <p class="text-sm text-slate-300 mt-0.5">
+            <p id="header-main-subtitle" class="text-sm text-slate-300 mt-0.5">
               Subtestes Locomotor (48 pts) e Controle de Objetos (46 pts) com escores padronizados e QMA.
             </p>
           </div>
@@ -98,13 +98,18 @@
               </button>
             </div>
 
-            <div class="flex items-center gap-2 w-full sm:w-auto">
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
               <button id="btn-tab-eval" class="flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-colors bg-white text-emerald-950 shadow-sm text-center">
                 Nova Avaliação
               </button>
               <button id="btn-tab-comp" class="flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-emerald-950/60 hover:bg-white/10 text-slate-200 flex items-center justify-center gap-1.5 text-center">
                 <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 <span>Comparativo de Evolução</span>
+              </button>
+              <!-- Aba Isolada: Banco de Wells -->
+              <button id="btn-tab-wells" class="flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-400/30 flex items-center justify-center gap-1.5 text-center">
+                <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                <span>Banco de Wells</span>
               </button>
             </div>
           </div>
@@ -121,7 +126,7 @@
       </div>
 
       <!-- ======================================================= -->
-      <!-- ABA 1: FLUXO DE AVALIAÇÃO TGMD-2 -->
+      <!-- ABA 1: FLUXO DE AVALIAÇÃO TGMD-2 (100% ORIGINAL) -->
       <!-- ======================================================= -->
       <section id="section-eval" class="space-y-6">
 
@@ -409,7 +414,7 @@
       </section>
 
       <!-- ======================================================= -->
-      <!-- ABA 2: COMPARATIVO DE EVOLUÇÃO (LINHA DE BASE vs ATUAL) -->
+      <!-- ABA 2: COMPARATIVO DE EVOLUÇÃO TGMD-2 (100% ORIGINAL) -->
       <!-- ======================================================= -->
       <section id="section-comp" class="space-y-6 hidden">
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
@@ -465,6 +470,311 @@
               <canvas id="chart-comp-bar"></canvas>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- ABA 3: BANCO DE WELLS (TOTALMENTE ISOLADO + EVOLUÇÃO) -->
+      <!-- ======================================================= -->
+      <section id="section-wells" class="space-y-6 hidden">
+
+        <!-- Print Header (Wells - Sai apenas quando esta aba está ativa) -->
+        <div id="print-header-wells" class="hidden print:block pb-3 mb-3 border-b-2 border-slate-800">
+          <div class="flex justify-between items-start">
+            <div>
+              <h1 class="text-lg font-black text-slate-900 uppercase tracking-tight">Relatório de Avaliação da Flexibilidade — Banco de Wells</h1>
+              <p class="text-[11px] font-semibold text-slate-600">Teste de Sentar e Alcançar (Wells & Dillon) • Cadeia Posterior e Lombar</p>
+            </div>
+            <div class="text-right text-[10px] text-slate-500">
+              <span class="font-bold text-slate-700">Sistema Motricidade</span><br>
+              <span id="wells-print-date">Data: --/--/----</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. Dados de Identificação (Isolado) -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 print-shadow-none">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-3 border-b border-slate-100 gap-3">
+            <div>
+              <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <svg class="w-5 h-5 text-amber-600 no-print" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                1. Identificação do Avaliado (Banco de Wells)
+              </h2>
+              <p class="text-xs text-slate-500 no-print">Módulo independente para avaliação da flexibilidade dos isquiotibiais e coluna lombar (6 a 65 anos).</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 no-print">
+              <select id="select-wells-salvos" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 bg-white text-slate-700 focus:ring-2 focus:ring-amber-500 outline-none max-w-[200px] truncate">
+                <option value="">📂 Avaliações Wells (0)...</option>
+              </select>
+              <button type="button" id="btn-excluir-wells" title="Excluir avaliação selecionada" class="px-2 py-1.5 text-xs font-bold rounded-lg bg-slate-100 hover:bg-red-100 text-slate-500 hover:text-red-700 border border-slate-200 transition hidden">
+                🗑️
+              </button>
+              <button type="button" id="btn-limpar-wells" class="px-3 py-1.5 text-xs font-semibold rounded bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+                Limpar
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+            <div class="lg:col-span-2">
+              <label for="wells-nome" class="block text-xs font-bold text-slate-700 mb-1">Nome do Avaliado</label>
+              <input type="text" id="wells-nome" placeholder="Digite o nome completo..." class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 outline-none">
+            </div>
+            <div>
+              <label for="wells-sexo" class="block text-xs font-bold text-slate-700 mb-1">Sexo Biológico</label>
+              <select id="wells-sexo" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+              </select>
+            </div>
+            <div>
+              <label for="wells-nasc" class="block text-xs font-bold text-slate-700 mb-1">Data de Nascimento</label>
+              <input type="date" id="wells-nasc" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 outline-none">
+            </div>
+            <div>
+              <label for="wells-aval" class="block text-xs font-bold text-slate-700 mb-1">Data da Avaliação</label>
+              <input type="date" id="wells-aval" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 outline-none">
+            </div>
+            <div class="bg-amber-50/80 rounded-lg p-3 border border-amber-200/70 flex flex-col justify-center">
+              <span class="text-xs font-bold text-amber-950">Idade & Faixa</span>
+              <div class="flex flex-col mt-0.5">
+                <span id="wells-idade-txt" class="text-base font-black text-amber-800">-</span>
+                <span id="wells-faixa-txt" class="text-[10px] font-semibold text-amber-700">Informe nascimento</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Execução, Evolução & Resultado Normativo -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Coluna Esquerda: Medidas, Evolução Interna & Protocolo -->
+          <div class="lg:col-span-2 space-y-6">
+
+            <!-- Medidas das 3 Tentativas -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 print-shadow-none">
+              <div class="pb-3 mb-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h2 class="text-base font-bold text-slate-900">2. Aferição das Tentativas (cm)</h2>
+                  <p class="text-xs text-slate-500">Registre até 3 tentativas válidas. O sistema considera automaticamente a <strong>maior distância alcançada</strong>.</p>
+                </div>
+                <span class="px-2.5 py-1 rounded bg-amber-100 text-amber-900 text-xs font-bold">Unidade: Centímetros (cm)</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70">
+                  <label for="wells-t1" class="block text-xs font-bold text-slate-700 mb-1">1ª Tentativa (cm)</label>
+                  <input type="number" step="0.5" id="wells-t1" placeholder="Ex: 22.0" class="w-full px-3 py-2 text-base font-black text-slate-900 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70">
+                  <label for="wells-t2" class="block text-xs font-bold text-slate-700 mb-1">2ª Tentativa (cm)</label>
+                  <input type="number" step="0.5" id="wells-t2" placeholder="Ex: 24.5" class="w-full px-3 py-2 text-base font-black text-slate-900 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70">
+                  <label for="wells-t3" class="block text-xs font-bold text-slate-700 mb-1">3ª Tentativa (cm)</label>
+                  <input type="number" step="0.5" id="wells-t3" placeholder="Ex: 25.0" class="w-full px-3 py-2 text-base font-black text-slate-900 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+              </div>
+
+              <!-- Parecer / Observações -->
+              <div class="mt-4 pt-4 border-t border-slate-100">
+                <label for="wells-obs" class="block text-xs font-bold text-slate-800 mb-1">Observações Posturais e Parecer Técnico</label>
+                <textarea id="wells-obs" rows="3" placeholder="Ex: Retroversão pélvica acentuada, compensação torácica, assimetria ou foco de alongamento para isquiotibiais..." class="w-full p-2.5 text-xs rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 outline-none"></textarea>
+              </div>
+            </div>
+
+            <!-- 3. Comparativo de Evolução Exclusivo do Banco de Wells -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 print-shadow-none space-y-4 page-break-avoid">
+              <div class="border-b border-slate-100 pb-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 class="text-sm font-black text-slate-900 flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    3. Comparativo de Evolução (Banco de Wells)
+                  </h3>
+                  <p class="text-[11px] text-slate-500">Insira o melhor alcance da avaliação anterior para acompanhar o ganho de flexibilidade em centímetros.</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center bg-amber-50/60 p-3.5 rounded-xl border border-amber-200/70">
+                <div>
+                  <label for="wells-ant-cm" class="block text-xs font-bold text-slate-700 mb-1">Alcance Anterior (cm)</label>
+                  <input type="number" step="0.5" id="wells-ant-cm" placeholder="Ex: 19.5" class="w-full px-3 py-2 text-sm font-black text-slate-900 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <div class="text-center p-2.5 bg-white rounded-lg border border-slate-200">
+                  <span class="text-[10px] font-bold uppercase text-slate-400 block">Diferença / Ganho</span>
+                  <span id="wells-delta-cm" class="text-xl font-black text-slate-800">-</span>
+                </div>
+                <div class="text-center p-2.5 bg-white rounded-lg border border-slate-200">
+                  <span class="text-[10px] font-bold uppercase text-slate-400 block">Evolução Percentual</span>
+                  <span id="wells-delta-pct" class="text-xl font-black text-amber-700">-</span>
+                </div>
+              </div>
+
+              <div class="relative h-48">
+                <canvas id="chart-wells-comp"></canvas>
+              </div>
+            </div>
+
+            <!-- 4. Protocolo Rápido e Tabelas Normativas de Referência -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 print-shadow-none space-y-4 page-break-avoid">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                <h3 class="text-sm font-black text-slate-900">Protocolo de Execução & Tabelas Normativas (Wells)</h3>
+                <button type="button" id="btn-toggle-wells-ref" class="text-xs font-bold text-amber-700 hover:text-amber-800 underline no-print">
+                  Ocultar/Mostrar Tabelas
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-700 bg-slate-50 p-3.5 rounded-lg border border-slate-200/70">
+                <div>
+                  <span class="font-black text-slate-900 block mb-1">Objetivo & Equipamento</span>
+                  <p class="leading-relaxed">Avalia a flexibilidade dos músculos <strong>isquiotibiais</strong> (posteriores da coxa) e da <strong>região lombar</strong> utilizando caixa/banco de Wells com régua acoplada.</p>
+                </div>
+                <div>
+                  <span class="font-black text-slate-900 block mb-1">Passos de Execução</span>
+                  <ol class="list-decimal list-inside space-y-0.5 leading-relaxed">
+                    <li>Sentar no chão descalço, pernas estendidas e pés apoiados na caixa.</li>
+                    <li>Mãos sobrepostas e braços estendidos à frente sobre a régua.</li>
+                    <li>Flexionar o tronco à frente alcançando o mais longe possível sem dobrar os joelhos.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <!-- Tabelas de Referência -->
+              <div id="wells-ref-tables-container" class="space-y-4">
+                <div>
+                  <h4 class="text-xs font-black uppercase tracking-wider text-amber-900 mb-1.5">Tabela 1: Crianças e Adolescentes (6 a 18 anos)</h4>
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-[11px] text-center border-collapse border border-slate-200">
+                      <thead class="bg-slate-100 text-slate-700 font-bold">
+                        <tr>
+                          <th class="border border-slate-200 py-1.5 px-2 text-left">Faixa Etária</th>
+                          <th class="border border-slate-200 py-1.5 px-2">Sexo</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-red-700">Muito Ruim</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-orange-700">Ruim</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-emerald-700">Médio</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-blue-700">Bom</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-indigo-700">Muito Bom</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">6–9 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 10</td><td class="border border-slate-200">10–15</td><td class="border border-slate-200">16–20</td><td class="border border-slate-200">21–25</td><td class="border border-slate-200">&gt; 25</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">6–9 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 12</td><td class="border border-slate-200">12–17</td><td class="border border-slate-200">18–23</td><td class="border border-slate-200">24–28</td><td class="border border-slate-200">&gt; 28</td></tr>
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">10–12 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 12</td><td class="border border-slate-200">12–17</td><td class="border border-slate-200">18–23</td><td class="border border-slate-200">24–28</td><td class="border border-slate-200">&gt; 28</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">10–12 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 15</td><td class="border border-slate-200">15–20</td><td class="border border-slate-200">21–26</td><td class="border border-slate-200">27–32</td><td class="border border-slate-200">&gt; 32</td></tr>
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">13–15 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 14</td><td class="border border-slate-200">14–19</td><td class="border border-slate-200">20–25</td><td class="border border-slate-200">26–30</td><td class="border border-slate-200">&gt; 30</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">13–15 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 18</td><td class="border border-slate-200">18–23</td><td class="border border-slate-200">24–29</td><td class="border border-slate-200">30–35</td><td class="border border-slate-200">&gt; 35</td></tr>
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">16–18 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 15</td><td class="border border-slate-200">15–20</td><td class="border border-slate-200">21–26</td><td class="border border-slate-200">27–32</td><td class="border border-slate-200">&gt; 32</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">16–18 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 20</td><td class="border border-slate-200">20–25</td><td class="border border-slate-200">26–31</td><td class="border border-slate-200">32–37</td><td class="border border-slate-200">&gt; 37</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="text-xs font-black uppercase tracking-wider text-amber-900 mb-1.5">Tabela 2: Adultos (18 a 65 anos)</h4>
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-[11px] text-center border-collapse border border-slate-200">
+                      <thead class="bg-slate-100 text-slate-700 font-bold">
+                        <tr>
+                          <th class="border border-slate-200 py-1.5 px-2 text-left">Faixa Etária</th>
+                          <th class="border border-slate-200 py-1.5 px-2">Sexo</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-red-700">Muito Ruim</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-orange-700">Ruim</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-emerald-700">Médio</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-blue-700">Bom</th>
+                          <th class="border border-slate-200 py-1.5 px-2 text-indigo-700">Muito Bom</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">18–25 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 20</td><td class="border border-slate-200">20–30</td><td class="border border-slate-200">31–40</td><td class="border border-slate-200">41–50</td><td class="border border-slate-200">&gt; 50</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">18–25 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 25</td><td class="border border-slate-200">25–35</td><td class="border border-slate-200">36–45</td><td class="border border-slate-200">46–55</td><td class="border border-slate-200">&gt; 55</td></tr>
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">26–35 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 18</td><td class="border border-slate-200">18–28</td><td class="border border-slate-200">29–38</td><td class="border border-slate-200">39–48</td><td class="border border-slate-200">&gt; 48</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">26–35 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 23</td><td class="border border-slate-200">23–33</td><td class="border border-slate-200">34–43</td><td class="border border-slate-200">44–53</td><td class="border border-slate-200">&gt; 53</td></tr>
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">36–45 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 15</td><td class="border border-slate-200">15–25</td><td class="border border-slate-200">26–35</td><td class="border border-slate-200">36–45</td><td class="border border-slate-200">&gt; 45</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">36–45 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 20</td><td class="border border-slate-200">20–30</td><td class="border border-slate-200">31–40</td><td class="border border-slate-200">41–50</td><td class="border border-slate-200">&gt; 50</td></tr>
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">46–55 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 12</td><td class="border border-slate-200">12–22</td><td class="border border-slate-200">23–32</td><td class="border border-slate-200">33–42</td><td class="border border-slate-200">&gt; 42</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">46–55 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 18</td><td class="border border-slate-200">18–28</td><td class="border border-slate-200">29–38</td><td class="border border-slate-200">39–48</td><td class="border border-slate-200">&gt; 48</td></tr>
+                        <tr><td class="border border-slate-200 py-1 px-2 text-left font-bold">56–65 anos</td><td class="border border-slate-200 py-1">Masc</td><td class="border border-slate-200">&lt; 10</td><td class="border border-slate-200">10–20</td><td class="border border-slate-200">21–30</td><td class="border border-slate-200">31–40</td><td class="border border-slate-200">&gt; 40</td></tr>
+                        <tr class="bg-slate-50/50"><td class="border border-slate-200 py-1 px-2 text-left font-bold">56–65 anos</td><td class="border border-slate-200 py-1">Fem</td><td class="border border-slate-200">&lt; 15</td><td class="border border-slate-200">15–25</td><td class="border border-slate-200">26–35</td><td class="border border-slate-200">36–45</td><td class="border border-slate-200">&gt; 45</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Coluna Direita: Resultado Normativo & Ações (Wells) -->
+          <div class="space-y-6">
+            <div class="bg-gradient-to-b from-white to-slate-50 rounded-xl shadow-sm border border-slate-200 p-6 sticky top-6 print-shadow-none page-break-avoid">
+              <h2 class="text-base font-bold text-slate-900 pb-3 border-b border-slate-200 flex items-center justify-between">
+                <span>Resultado Normativo</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-semibold">Banco de Wells</span>
+              </h2>
+
+              <!-- Destaque: Melhor Alcance -->
+              <div class="py-4 text-center border-b border-slate-100">
+                <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Melhor Alcance Registrado</span>
+                <div id="wells-res-val" class="text-4xl font-black text-amber-700 my-1">-</div>
+                <div id="wells-res-badge" class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-slate-100 text-slate-600 mt-1">
+                  Aguardando dados
+                </div>
+                <p id="wells-res-desc" class="text-xs text-slate-600 mt-2.5 px-2 leading-relaxed">
+                  Informe a data de nascimento e registre ao menos uma tentativa em centímetros.
+                </p>
+              </div>
+
+              <!-- Resumo Técnico -->
+              <div class="py-3 space-y-2 text-xs border-b border-slate-100">
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Tentativas (T1 / T2 / T3):</span>
+                  <span id="wells-res-trials" class="font-bold text-slate-800">- / - / -</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Média das Tentativas:</span>
+                  <span id="wells-res-avg" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Faixa Etária Aplicada:</span>
+                  <span id="wells-res-bracket" class="font-bold text-amber-800">-</span>
+                </div>
+              </div>
+
+              <!-- Ações -->
+              <div class="mt-5 space-y-2 no-print">
+                <button type="button" id="btn-salvar-wells" class="w-full py-2.5 px-3 text-xs font-bold rounded-lg bg-amber-600 hover:bg-amber-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                  Salvar Avaliação Wells
+                </button>
+
+                <button type="button" id="btn-drive-wells" class="w-full py-2.5 px-3 text-xs font-bold rounded-lg bg-sky-600 hover:bg-sky-700 text-white flex items-center justify-center gap-2 shadow-sm transition">
+                  <svg class="w-4 h-4 shrink-0" viewBox="0 0 87.3 78" fill="none">
+                    <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+                    <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00ac47"/>
+                    <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+                    <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+                    <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+                    <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+                  </svg>
+                  Salvar no Google Drive
+                </button>
+
+                <button type="button" id="btn-imprimir-wells" class="w-full py-2.5 px-3 text-xs font-bold rounded-lg bg-slate-800 hover:bg-slate-900 text-white flex items-center justify-center gap-2 shadow-sm transition">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                  Imprimir / Salvar em PDF
+                </button>
+              </div>
+
+              <!-- Assinatura Impressão Wells -->
+              <div id="print-signature-wells" class="mt-8 pt-6 border-t border-slate-300 text-center hidden print:block page-break-avoid">
+                <div class="w-64 mx-auto border-b border-slate-400 pb-1"></div>
+                <p id="print-signature-name-wells" class="text-xs font-bold text-slate-800 mt-1">Assinatura do Avaliador Responsável</p>
+                <p class="text-[10px] text-slate-500">Registro Profissional / Carimbo</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -605,6 +915,28 @@
       ]
     };
 
+    // Tabelas Normativas Oficiais Banco de Wells (Crianças/Adolescentes + Adultos)
+    const WELLS_NORMS = [
+      { minAge: 6,  maxAge: 9,  sex: "M", label: "6–9 anos (Masc)",   mr: 10, r: 15, m: 20, b: 25, type: "youth" },
+      { minAge: 6,  maxAge: 9,  sex: "F", label: "6–9 anos (Fem)",    mr: 12, r: 17, m: 23, b: 28, type: "youth" },
+      { minAge: 10, maxAge: 12, sex: "M", label: "10–12 anos (Masc)", mr: 12, r: 17, m: 23, b: 28, type: "youth" },
+      { minAge: 10, maxAge: 12, sex: "F", label: "10–12 anos (Fem)",  mr: 15, r: 20, m: 26, b: 32, type: "youth" },
+      { minAge: 13, maxAge: 15, sex: "M", label: "13–15 anos (Masc)", mr: 14, r: 19, m: 25, b: 30, type: "youth" },
+      { minAge: 13, maxAge: 15, sex: "F", label: "13–15 anos (Fem)",  mr: 18, r: 23, m: 29, b: 35, type: "youth" },
+      { minAge: 16, maxAge: 17, sex: "M", label: "16–18 anos (Masc)", mr: 15, r: 20, m: 26, b: 32, type: "youth" },
+      { minAge: 16, maxAge: 17, sex: "F", label: "16–18 anos (Fem)",  mr: 20, r: 25, m: 31, b: 37, type: "youth" },
+      { minAge: 18, maxAge: 25, sex: "M", label: "18–25 anos (Masc)", mr: 20, r: 30, m: 40, b: 50, type: "adult" },
+      { minAge: 18, maxAge: 25, sex: "F", label: "18–25 anos (Fem)",  mr: 25, r: 35, m: 45, b: 55, type: "adult" },
+      { minAge: 26, maxAge: 35, sex: "M", label: "26–35 anos (Masc)", mr: 18, r: 28, m: 38, b: 48, type: "adult" },
+      { minAge: 26, maxAge: 35, sex: "F", label: "26–35 anos (Fem)",  mr: 23, r: 33, m: 43, b: 53, type: "adult" },
+      { minAge: 36, maxAge: 45, sex: "M", label: "36–45 anos (Masc)", mr: 15, r: 25, m: 35, b: 45, type: "adult" },
+      { minAge: 36, maxAge: 45, sex: "F", label: "36–45 anos (Fem)",  mr: 20, r: 30, m: 40, b: 50, type: "adult" },
+      { minAge: 46, maxAge: 55, sex: "M", label: "46–55 anos (Masc)", mr: 12, r: 22, m: 32, b: 42, type: "adult" },
+      { minAge: 46, maxAge: 55, sex: "F", label: "46–55 anos (Fem)",  mr: 18, r: 28, m: 38, b: 48, type: "adult" },
+      { minAge: 56, maxAge: 65, sex: "M", label: "56–65 anos (Masc)", mr: 10, r: 20, m: 30, b: 40, type: "adult" },
+      { minAge: 56, maxAge: 65, sex: "F", label: "56–65 anos (Fem)",  mr: 15, r: 25, m: 35, b: 45, type: "adult" }
+    ];
+
     // Estado da Aplicação
     const state = {
       user: null,
@@ -614,15 +946,23 @@
       aval: new Date().toISOString().split("T")[0],
       obs: "",
       scores: {},
-      ant: {
-        loco: null,
-        obj: null,
-        qma: null
+      ant: { loco: null, obj: null, qma: null },
+      wells: {
+        nome: "",
+        sexo: "M",
+        nasc: "",
+        aval: new Date().toISOString().split("T")[0],
+        t1: "",
+        t2: "",
+        t3: "",
+        antCm: "",
+        obs: ""
       }
     };
 
     let chartSkillsInstance = null;
     let chartCompBarInstance = null;
+    let chartWellsCompInstance = null;
 
     // Login
     function checkSession() {
@@ -656,12 +996,14 @@
       document.getElementById("user-display-email").textContent = normalized;
       document.getElementById("input-avaliador").value = userData.name;
       document.getElementById("print-signature-name").textContent = `${userData.name} — Avaliador(a) Responsável`;
+      document.getElementById("print-signature-name-wells").textContent = `${userData.name} — Avaliador(a) Responsável`;
 
       document.getElementById("screen-login").classList.add("hidden");
       document.getElementById("app-content").classList.remove("hidden");
 
       renderTgmdForms();
       updateCalculations();
+      updateWellsCalculations();
       showToast(`Bem-vindo(a), ${userData.name}!`);
     }
 
@@ -700,7 +1042,9 @@
       setTimeout(() => t.classList.add("hidden"), 3000);
     }
 
-    // Renderização dos Formulários do TGMD-2
+    // =======================================================
+    // LÓGICA TGMD-2 (100% PRESERVADA)
+    // =======================================================
     function renderTgmdForms() {
       buildSubtestSection("locomotor", PROTOCOL_TGMD2.locomotor, "container-locomotor");
       buildSubtestSection("object", PROTOCOL_TGMD2.object, "container-objetos");
@@ -755,7 +1099,6 @@
       updateCalculations();
     };
 
-    // Classificação Qualitativa Ulrich (2000)
     function getClassificationTGMD(qma) {
       if (!qma && qma !== 0) return { label: "-", color: "bg-slate-100 text-slate-600", desc: "" };
       if (qma >= 130) return { label: "Muito Superior", color: "bg-indigo-100 text-indigo-800 border-indigo-300", desc: "Desenvolvimento motor extraordinário." };
@@ -767,7 +1110,6 @@
       return { label: "Muito Pobre", color: "bg-red-100 text-red-800 border-red-300", desc: "Atraso acentuado. Necessita de programa estruturado de habilitação motora." };
     }
 
-    // Cálculos Gerais do TGMD-2
     function updateCalculations() {
       const icData = calculateIC(state.nasc, state.aval);
       const hasIC = icData !== null;
@@ -782,10 +1124,8 @@
       let sumLoco = 0;
       let sumObj = 0;
       let filledCriteriaCount = 0;
-
       const skillsSummary = [];
 
-      // Locomotor
       PROTOCOL_TGMD2.locomotor.forEach(skill => {
         let skillTotal = 0;
         const maxPts = skill.criteria.length * 2;
@@ -803,7 +1143,6 @@
         if (b) b.textContent = `${skillTotal} / ${maxPts} pts (${pct}%)`;
       });
 
-      // Objetos
       PROTOCOL_TGMD2.object.forEach(skill => {
         let skillTotal = 0;
         const maxPts = skill.criteria.length * 2;
@@ -830,7 +1169,6 @@
       document.getElementById("kpi-loco-top").textContent = `${sumLoco} / 48 pts (${pctLoco}%)`;
       document.getElementById("kpi-obj-top").textContent = `${sumObj} / 46 pts (${pctObj}%)`;
 
-      // Conversão Normativa Ulrich
       const qmaCalculado = Math.round(55 + (totalRaw / 94) * 65);
       const percCalculado = Math.min(99, Math.max(1, Math.round((qmaCalculado - 60) * 1.55)));
       const classification = getClassificationTGMD(qmaCalculado);
@@ -846,13 +1184,11 @@
       badgeCl.className = `inline-block px-3 py-1 rounded-full text-xs font-extrabold ${classification.color} mt-1`;
       document.getElementById("res-class-desc").textContent = classification.desc;
 
-      // Banner Clínico
       document.getElementById("clin-badge-qma").textContent = `QMA ${qmaCalculado} · ${classification.label}`;
       document.getElementById("clin-badge-qma").className = `px-2.5 py-1 rounded-md text-xs font-black ${classification.color}`;
       document.getElementById("clin-badge-perc").textContent = `Percentil ${percCalculado}º`;
       document.getElementById("clin-summary-txt").textContent = `Escore Bruto Total: ${totalRaw} de 94 pontos possíveis (${Math.round((totalRaw/94)*100)}%). O avaliado demonstra classificação ${classification.label} com perfil normativo no ${percCalculado}º percentil.`;
 
-      // Pontos Fortes e Próximo Foco
       const sortedByPct = [...skillsSummary].sort((a, b) => b.pct - a.pct);
       const forte = sortedByPct[0];
       const foco = sortedByPct[sortedByPct.length - 1];
@@ -860,7 +1196,6 @@
       document.getElementById("clin-ponto-forte").innerHTML = `<span class="font-bold text-emerald-800">${forte.name}</span> — ${forte.pts}/${forte.max} pts (${forte.pct}%)`;
       document.getElementById("clin-proximo-foco").innerHTML = `<span class="font-bold text-amber-800">${foco.name}</span> — ${foco.pts}/${foco.max} pts (${foco.pct}%)`;
 
-      // Tabela de Resumo de Habilidades
       const tableBody = document.getElementById("table-skills-body");
       tableBody.innerHTML = skillsSummary.map(s => `
         <tr class="hover:bg-slate-50">
@@ -873,7 +1208,6 @@
         </tr>
       `).join("");
 
-      // Header de Impressão
       const dtStr = state.aval ? state.aval.split("-").reverse().join("/") : new Date().toLocaleDateString("pt-BR");
       document.getElementById("print-date").textContent = `Data: ${dtStr}`;
       document.getElementById("print-date-p2").textContent = `Data: ${dtStr}`;
@@ -882,7 +1216,6 @@
       updateCharts(skillsSummary, sumLoco, sumObj, qmaCalculado);
     }
 
-    // Gráficos Chart.js
     function updateCharts(skills, locoAtual, objAtual, qmaAtual) {
       const ctxSkills = document.getElementById("chart-habilidades");
       if (ctxSkills) {
@@ -919,12 +1252,10 @@
         }
       }
 
-      // Comparativo Anterior vs Atual
       const ctxComp = document.getElementById("chart-comp-bar");
       if (ctxComp) {
         const antLoco = state.ant.loco || 0;
         const antObj = state.ant.obj || 0;
-
         const deltaLoco = locoAtual - antLoco;
         const deltaObj = objAtual - antObj;
         const deltaQma = (state.ant.qma !== null && state.ant.qma > 0) ? (qmaAtual - state.ant.qma) : null;
@@ -965,7 +1296,6 @@
       }
     }
 
-    // LocalStorage: Salvar e Carregar Crianças
     function getSavedTGMD() {
       try {
         const raw = localStorage.getItem("tgmd2_criancas_salvas");
@@ -1042,7 +1372,6 @@
       showToast("Registro removido com sucesso.");
     }
 
-    // Exportação para o Google Drive
     function exportarParaDrive() {
       const nomeLimpo = (state.nome || "Crianca_Avaliada").trim().replace(/\s+/g, "_");
       document.title = `Relatorio_TGMD2_${nomeLimpo}`;
@@ -1051,6 +1380,308 @@
         window.open("https://drive.google.com/drive/my-drive", "_blank");
         window.print();
       }, 200);
+    }
+
+    // =======================================================
+    // LÓGICA BANCO DE WELLS (TOTALMENTE ISOLADO + EVOLUÇÃO)
+    // =======================================================
+    function classifyWells(ageYears, sex, bestCm) {
+      if (bestCm === null || isNaN(bestCm)) {
+        return {
+          label: "Aguardando medida",
+          badgeClass: "bg-slate-100 text-slate-600",
+          desc: "Registre ao menos uma tentativa em centímetros para classificar.",
+          bracket: ageYears ? `${ageYears} anos` : "-"
+        };
+      }
+      if (ageYears === null || ageYears < 6 || ageYears > 65) {
+        return {
+          label: "Fora da faixa (6–65 anos)",
+          badgeClass: "bg-slate-200 text-slate-700",
+          desc: "As tabelas normativas aplicadas cobrem avaliados entre 6 e 65 anos.",
+          bracket: ageYears !== null ? `${ageYears} anos` : "Idade não informada"
+        };
+      }
+
+      const norm = WELLS_NORMS.find(n => ageYears >= n.minAge && ageYears <= n.maxAge && n.sex === sex);
+      if (!norm) {
+        return {
+          label: "Sem referência",
+          badgeClass: "bg-slate-200 text-slate-700",
+          desc: "Faixa etária não encontrada na tabela normativa.",
+          bracket: "-"
+        };
+      }
+
+      if (bestCm < norm.mr) {
+        return {
+          label: "Muito Ruim",
+          badgeClass: "bg-red-100 text-red-800 border border-red-300",
+          desc: norm.type === "youth"
+            ? "Flexibilidade muito abaixo da média, exigindo atenção em possíveis encurtamentos musculares."
+            : "Flexibilidade significativamente abaixo da média, indicando possível encurtamento muscular.",
+          bracket: norm.label
+        };
+      }
+      if (bestCm <= norm.r) {
+        return {
+          label: "Ruim",
+          badgeClass: "bg-orange-100 text-orange-800 border border-orange-300",
+          desc: norm.type === "youth"
+            ? "Flexibilidade abaixo da média, sugerindo a necessidade de intervenção."
+            : "Flexibilidade abaixo da média, mas com menos severidade.",
+          bracket: norm.label
+        };
+      }
+      if (bestCm <= norm.m) {
+        return {
+          label: "Médio",
+          badgeClass: "bg-emerald-100 text-emerald-800 border border-emerald-300",
+          desc: "Flexibilidade dentro dos parâmetros esperados para a idade e sexo.",
+          bracket: norm.label
+        };
+      }
+      if (bestCm <= norm.b) {
+        return {
+          label: "Bom",
+          badgeClass: "bg-blue-100 text-blue-800 border border-blue-300",
+          desc: "Flexibilidade acima da média, indicando bom alongamento posterior e lombar.",
+          bracket: norm.label
+        };
+      }
+      return {
+        label: "Muito Bom",
+        badgeClass: "bg-indigo-100 text-indigo-800 border border-indigo-300",
+        desc: "Flexibilidade excepcional, demonstrando ótima amplitude da cadeia posterior.",
+        bracket: norm.label
+      };
+    }
+
+    function updateWellsCalculations() {
+      const w = state.wells;
+      const ic = calculateIC(w.nasc, w.aval);
+      const ageYears = ic ? ic.anos : null;
+
+      document.getElementById("wells-idade-txt").textContent = ic ? `${ic.anos} anos` : "-";
+      document.getElementById("wells-faixa-txt").textContent = ic ? `(${ic.texto})` : "Informe nascimento";
+
+      const vals = [w.t1, w.t2, w.t3]
+        .filter(v => v !== "" && v !== null && !isNaN(Number(v)))
+        .map(v => Number(v));
+
+      const best = vals.length > 0 ? Math.max(...vals) : null;
+      const avg = vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length) : null;
+
+      document.getElementById("wells-res-val").textContent = best !== null ? `${best.toFixed(1)} cm` : "-";
+      document.getElementById("wells-res-trials").textContent = `${w.t1 || "-"} / ${w.t2 || "-"} / ${w.t3 || "-"} cm`;
+      document.getElementById("wells-res-avg").textContent = avg !== null ? `${avg.toFixed(1)} cm` : "-";
+
+      const res = classifyWells(ageYears, w.sexo, best);
+      const badgeEl = document.getElementById("wells-res-badge");
+      badgeEl.textContent = res.label;
+      badgeEl.className = `inline-block px-3 py-1 rounded-full text-xs font-extrabold ${res.badgeClass} mt-1`;
+      document.getElementById("wells-res-desc").textContent = res.desc;
+      document.getElementById("wells-res-bracket").textContent = res.bracket;
+
+      const dtStr = w.aval ? w.aval.split("-").reverse().join("/") : new Date().toLocaleDateString("pt-BR");
+      document.getElementById("wells-print-date").textContent = `Data: ${dtStr}`;
+
+      updateWellsComparison(best);
+    }
+
+    function updateWellsComparison(bestAtual) {
+      const antVal = (state.wells.antCm !== "" && state.wells.antCm !== null && !isNaN(Number(state.wells.antCm)))
+        ? Number(state.wells.antCm)
+        : null;
+
+      const deltaCmEl = document.getElementById("wells-delta-cm");
+      const deltaPctEl = document.getElementById("wells-delta-pct");
+
+      if (bestAtual !== null && antVal !== null) {
+        const diff = bestAtual - antVal;
+        deltaCmEl.textContent = `${diff >= 0 ? "+" : ""}${diff.toFixed(1)} cm`;
+        deltaCmEl.className = `text-xl font-black ${diff > 0 ? "text-emerald-700" : (diff < 0 ? "text-red-600" : "text-slate-800")}`;
+
+        if (antVal !== 0) {
+          const pct = ((diff / Math.abs(antVal)) * 100).toFixed(1);
+          deltaPctEl.textContent = `${diff >= 0 ? "+" : ""}${pct}%`;
+        } else {
+          deltaPctEl.textContent = "-";
+        }
+      } else {
+        deltaCmEl.textContent = "-";
+        deltaCmEl.className = "text-xl font-black text-slate-800";
+        deltaPctEl.textContent = "-";
+      }
+
+      const ctxWells = document.getElementById("chart-wells-comp");
+      if (ctxWells) {
+        const dAnt = antVal ?? 0;
+        const dAtu = bestAtual ?? 0;
+
+        if (!chartWellsCompInstance) {
+          chartWellsCompInstance = new Chart(ctxWells, {
+            type: "bar",
+            data: {
+              labels: ["Avaliação Anterior (cm)", "Avaliação Atual (cm)"],
+              datasets: [{
+                label: "Alcance (cm)",
+                data: [dAnt, dAtu],
+                backgroundColor: ["rgba(148, 163, 184, 0.75)", "rgba(217, 119, 6, 0.85)"],
+                borderRadius: 6,
+                barThickness: 48
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: {
+                y: { beginAtZero: true, title: { display: true, text: "Distância (cm)" } }
+              }
+            }
+          });
+        } else {
+          chartWellsCompInstance.data.datasets[0].data = [dAnt, dAtu];
+          chartWellsCompInstance.update();
+        }
+      }
+    }
+
+    function getSavedWells() {
+      try {
+        const raw = localStorage.getItem("wells_avaliacoes_salvas");
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) { return []; }
+    }
+
+    function salvarAvaliacaoWells() {
+      const nomeTrim = (state.wells.nome || "").trim();
+      if (!nomeTrim) {
+        showToast("Digite o nome do avaliado no Banco de Wells antes de salvar.");
+        document.getElementById("wells-nome").focus();
+        return;
+      }
+
+      const list = getSavedWells();
+      const record = {
+        id: "wells_" + Date.now(),
+        ...state.wells,
+        nome: nomeTrim,
+        dataSalva: new Date().toLocaleDateString("pt-BR")
+      };
+
+      const idx = list.findIndex(item => item.nome.toLowerCase() === nomeTrim.toLowerCase() && item.aval === state.wells.aval);
+      if (idx >= 0) list[idx] = record;
+      else list.unshift(record);
+
+      try { localStorage.setItem("wells_avaliacoes_salvas", JSON.stringify(list)); } catch (e) {}
+      refreshWellsSelect();
+      showToast(`Avaliação Wells de "${nomeTrim}" salva!`);
+    }
+
+    function refreshWellsSelect() {
+      const list = getSavedWells();
+      const sel = document.getElementById("select-wells-salvos");
+      const btnDel = document.getElementById("btn-excluir-wells");
+      sel.innerHTML = `<option value="">📂 Avaliações Wells (${list.length})...</option>` +
+        list.map(c => `<option value="${c.id}">${c.nome} (${c.aval || c.dataSalva})</option>`).join("");
+      btnDel.classList.toggle("hidden", list.length === 0);
+    }
+
+    function carregarAvaliacaoWells(id) {
+      if (!id) return;
+      const list = getSavedWells();
+      const c = list.find(item => item.id === id);
+      if (!c) return;
+
+      state.wells = {
+        nome: c.nome || "",
+        sexo: c.sexo || "M",
+        nasc: c.nasc || "",
+        aval: c.aval || new Date().toISOString().split("T")[0],
+        t1: c.t1 ?? "",
+        t2: c.t2 ?? "",
+        t3: c.t3 ?? "",
+        antCm: c.antCm ?? "",
+        obs: c.obs || ""
+      };
+
+      document.getElementById("wells-nome").value = state.wells.nome;
+      document.getElementById("wells-sexo").value = state.wells.sexo;
+      document.getElementById("wells-nasc").value = state.wells.nasc;
+      document.getElementById("wells-aval").value = state.wells.aval;
+      document.getElementById("wells-t1").value = state.wells.t1;
+      document.getElementById("wells-t2").value = state.wells.t2;
+      document.getElementById("wells-t3").value = state.wells.t3;
+      document.getElementById("wells-ant-cm").value = state.wells.antCm;
+      document.getElementById("wells-obs").value = state.wells.obs;
+
+      updateWellsCalculations();
+      showToast(`Avaliação Wells de "${c.nome}" carregada!`);
+    }
+
+    function excluirAvaliacaoWells() {
+      const sel = document.getElementById("select-wells-salvos");
+      if (!sel.value) return;
+      let list = getSavedWells().filter(item => item.id !== sel.value);
+      try { localStorage.setItem("wells_avaliacoes_salvas", JSON.stringify(list)); } catch (e) {}
+      refreshWellsSelect();
+      showToast("Registro do Banco de Wells removido.");
+    }
+
+    function exportarWellsDrive() {
+      const nomeLimpo = (state.wells.nome || "Avaliado").trim().replace(/\s+/g, "_");
+      document.title = `Relatorio_Banco_Wells_${nomeLimpo}`;
+      showToast("Abrindo relatório Banco de Wells e o Google Drive...");
+      setTimeout(() => {
+        window.open("https://drive.google.com/drive/my-drive", "_blank");
+        window.print();
+      }, 200);
+    }
+
+    // =======================================================
+    // CONTROLE DE ABAS
+    // =======================================================
+    function switchTab(activeTab) {
+      const tabEval = document.getElementById("btn-tab-eval");
+      const tabComp = document.getElementById("btn-tab-comp");
+      const tabWells = document.getElementById("btn-tab-wells");
+
+      const secEval = document.getElementById("section-eval");
+      const secComp = document.getElementById("section-comp");
+      const secWells = document.getElementById("section-wells");
+
+      const inactiveStyle = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-emerald-950/60 hover:bg-white/10 text-slate-200 flex items-center justify-center gap-1.5 text-center";
+      const activeStyle = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-colors bg-white text-emerald-950 shadow-sm flex items-center justify-center gap-1.5 text-center";
+
+      tabEval.className = activeTab === "eval" ? activeStyle : inactiveStyle;
+      tabComp.className = activeTab === "comp" ? activeStyle : inactiveStyle;
+      tabWells.className = activeTab === "wells"
+        ? "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-colors bg-amber-400 text-slate-950 shadow-sm flex items-center justify-center gap-1.5 text-center"
+        : "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-400/30 flex items-center justify-center gap-1.5 text-center";
+
+      secEval.classList.toggle("hidden", activeTab !== "eval");
+      secComp.classList.toggle("hidden", activeTab !== "comp");
+      secWells.classList.toggle("hidden", activeTab !== "wells");
+
+      const badge = document.getElementById("header-protocol-badge");
+      const title = document.getElementById("header-main-title");
+      const subtitle = document.getElementById("header-main-subtitle");
+
+      if (activeTab === "wells") {
+        badge.textContent = "Protocolo Banco de Wells • Sentar e Alcançar";
+        badge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/30 text-amber-200 border border-amber-400/30";
+        title.textContent = "Avaliação da Flexibilidade — Banco de Wells";
+        subtitle.textContent = "Teste de flexibilidade de isquiotibiais e região lombar com classificação normativa (6 a 65 anos).";
+        if (chartWellsCompInstance) chartWellsCompInstance.resize();
+      } else {
+        badge.textContent = "Protocolo TGMD-2 • Dale A. Ulrich (2000)";
+        badge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/30 text-emerald-200 border border-emerald-400/30";
+        title.textContent = "Avaliação do Desenvolvimento Motor Grosso (TGMD-2)";
+        subtitle.textContent = "Subtestes Locomotor (48 pts) e Controle de Objetos (46 pts) com escores padronizados e QMA.";
+        if (activeTab === "comp" && chartCompBarInstance) chartCompBarInstance.resize();
+      }
     }
 
     // Inicialização e Listeners
@@ -1062,23 +1693,25 @@
 
       document.getElementById("btn-logout").addEventListener("click", logoutUser);
 
-      // Inputs de Identificação
+      // Inputs TGMD-2
       const inNome = document.getElementById("input-nome");
       const inAvaliar = document.getElementById("input-avaliador");
       const inNasc = document.getElementById("input-nasc");
       const inAval = document.getElementById("input-aval");
       const inObs = document.getElementById("input-obs");
 
+      inAval.value = state.aval;
+
       inNome.addEventListener("input", e => { state.nome = e.target.value; updateCalculations(); });
       inAvaliar.addEventListener("input", e => {
         state.avaliador = e.target.value;
         document.getElementById("print-signature-name").textContent = `${e.target.value} — Avaliador(a) Responsável`;
+        document.getElementById("print-signature-name-wells").textContent = `${e.target.value} — Avaliador(a) Responsável`;
       });
       inNasc.addEventListener("change", e => { state.nasc = e.target.value; updateCalculations(); });
       inAval.addEventListener("change", e => { state.aval = e.target.value; updateCalculations(); });
       inObs.addEventListener("input", e => { state.obs = e.target.value; });
 
-      // Botão Limpar
       document.getElementById("btn-limpar").addEventListener("click", () => {
         state.nome = "";
         state.nasc = "";
@@ -1095,27 +1728,11 @@
       });
 
       // Navegação por Abas
-      const tabEval = document.getElementById("btn-tab-eval");
-      const tabComp = document.getElementById("btn-tab-comp");
-      const secEval = document.getElementById("section-eval");
-      const secComp = document.getElementById("section-comp");
+      document.getElementById("btn-tab-eval").addEventListener("click", () => switchTab("eval"));
+      document.getElementById("btn-tab-comp").addEventListener("click", () => switchTab("comp"));
+      document.getElementById("btn-tab-wells").addEventListener("click", () => switchTab("wells"));
 
-      tabEval.addEventListener("click", () => {
-        tabEval.className = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-colors bg-white text-emerald-950 shadow-sm text-center";
-        tabComp.className = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-emerald-950/60 hover:bg-white/10 text-slate-200 flex items-center justify-center gap-1.5 text-center";
-        secEval.classList.remove("hidden");
-        secComp.classList.add("hidden");
-      });
-
-      tabComp.addEventListener("click", () => {
-        tabComp.className = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-bold rounded-lg transition-colors bg-white text-emerald-950 shadow-sm flex items-center justify-center gap-1.5 text-center";
-        tabEval.className = "flex-1 sm:flex-initial px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors bg-emerald-950/60 hover:bg-white/10 text-slate-200 text-center";
-        secComp.classList.remove("hidden");
-        secEval.classList.add("hidden");
-        if (chartCompBarInstance) chartCompBarInstance.resize();
-      });
-
-      // Comparativo Inputs
+      // Comparativo TGMD-2 Inputs
       document.getElementById("comp-ant-loco").addEventListener("input", e => {
         state.ant.loco = e.target.value === "" ? null : Number(e.target.value);
         updateCalculations();
@@ -1129,16 +1746,64 @@
         updateCalculations();
       });
 
-      // LocalStorage
+      // LocalStorage & Exportação TGMD-2
       document.getElementById("btn-salvar-crianca").addEventListener("click", salvarCriancaTGMD);
       document.getElementById("select-criancas-salvas").addEventListener("change", e => carregarCriancaTGMD(e.target.value));
       document.getElementById("btn-excluir-crianca").addEventListener("click", excluirCriancaTGMD);
-
-      // Ações de Exportação
       document.getElementById("btn-salvar-drive").addEventListener("click", exportarParaDrive);
       document.getElementById("btn-imprimir").addEventListener("click", () => window.print());
 
+      // Listeners Módulo Banco de Wells (Isolado)
+      const wAval = document.getElementById("wells-aval");
+      wAval.value = state.wells.aval;
+
+      document.getElementById("wells-nome").addEventListener("input", e => { state.wells.nome = e.target.value; });
+      document.getElementById("wells-sexo").addEventListener("change", e => { state.wells.sexo = e.target.value; updateWellsCalculations(); });
+      document.getElementById("wells-nasc").addEventListener("change", e => { state.wells.nasc = e.target.value; updateWellsCalculations(); });
+      wAval.addEventListener("change", e => { state.wells.aval = e.target.value; updateWellsCalculations(); });
+      document.getElementById("wells-t1").addEventListener("input", e => { state.wells.t1 = e.target.value; updateWellsCalculations(); });
+      document.getElementById("wells-t2").addEventListener("input", e => { state.wells.t2 = e.target.value; updateWellsCalculations(); });
+      document.getElementById("wells-t3").addEventListener("input", e => { state.wells.t3 = e.target.value; updateWellsCalculations(); });
+      document.getElementById("wells-ant-cm").addEventListener("input", e => { state.wells.antCm = e.target.value; updateWellsCalculations(); });
+      document.getElementById("wells-obs").addEventListener("input", e => { state.wells.obs = e.target.value; });
+
+      document.getElementById("btn-limpar-wells").addEventListener("click", () => {
+        state.wells = {
+          nome: "",
+          sexo: "M",
+          nasc: "",
+          aval: new Date().toISOString().split("T")[0],
+          t1: "",
+          t2: "",
+          t3: "",
+          antCm: "",
+          obs: ""
+        };
+        document.getElementById("wells-nome").value = "";
+        document.getElementById("wells-sexo").value = "M";
+        document.getElementById("wells-nasc").value = "";
+        document.getElementById("wells-aval").value = state.wells.aval;
+        document.getElementById("wells-t1").value = "";
+        document.getElementById("wells-t2").value = "";
+        document.getElementById("wells-t3").value = "";
+        document.getElementById("wells-ant-cm").value = "";
+        document.getElementById("wells-obs").value = "";
+        updateWellsCalculations();
+        showToast("Campos do Banco de Wells limpos.");
+      });
+
+      document.getElementById("btn-toggle-wells-ref").addEventListener("click", () => {
+        document.getElementById("wells-ref-tables-container").classList.toggle("hidden");
+      });
+
+      document.getElementById("btn-salvar-wells").addEventListener("click", salvarAvaliacaoWells);
+      document.getElementById("select-wells-salvos").addEventListener("change", e => carregarAvaliacaoWells(e.target.value));
+      document.getElementById("btn-excluir-wells").addEventListener("click", excluirAvaliacaoWells);
+      document.getElementById("btn-drive-wells").addEventListener("click", exportarWellsDrive);
+      document.getElementById("btn-imprimir-wells").addEventListener("click", () => window.print());
+
       refreshSavedSelect();
+      refreshWellsSelect();
       checkSession();
     });
   </script>
