@@ -1807,5 +1807,48 @@
       checkSession();
     });
   </script>
+  <!-- Modal de Aviso de Backup em PDF -->
+<div id="modal-aviso-pdf" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65); z-index: 9999; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
+  <div style="background: #ffffff; max-width: 420px; width: 100%; border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); font-family: sans-serif;">
+    <div style="font-size: 40px; margin-bottom: 12px;">⚠️</div>
+    <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 18px;">Atenção ao salvar a avaliação!</h3>
+    <p style="margin: 0 0 20px 0; color: #475569; font-size: 14px; line-height: 1.5;">
+      Lembre-se de <strong>salvar a criança em PDF</strong>. Os dados salvos apenas no navegador ficam presos neste dispositivo e você vai perdê-los se trocar de aparelho ou limpar o histórico.
+    </p>
+    <button id="btn-fechar-aviso-pdf" style="background: #2563eb; color: #ffffff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; width: 100%;">
+      Entendi, vou salvar em PDF
+    </button>
+  </div>
+</div>
+<script>
+  (function() {
+    // Mude o nome desta chave quando for colocar na página de relatório (ex: 'avisoPdfVisto_relatorio')
+    const CHAVE_STORAGE = 'avisoPdfVisto_tgm2';
+    let modalExibidoNestaSessao = false;
+
+    function verificarRolagem() {
+      if (modalExibidoNestaSessao || localStorage.getItem(CHAVE_STORAGE) === 'true') {
+        return;
+      }
+
+      // Verifica se chegou ao final da página (com margem de 50px para evitar falhas no mobile)
+      const scrollAtual = window.innerHeight + window.scrollY;
+      const alturaTotal = document.documentElement.scrollHeight;
+
+      if (scrollAtual >= alturaTotal - 50) {
+        modalExibidoNestaSessao = true;
+        localStorage.setItem(CHAVE_STORAGE, 'true');
+        document.getElementById('modal-aviso-pdf').style.display = 'flex';
+        window.removeEventListener('scroll', verificarRolagem);
+      }
+    }
+
+    document.getElementById('btn-fechar-aviso-pdf').addEventListener('click', function() {
+      document.getElementById('modal-aviso-pdf').style.display = 'none';
+    });
+
+    window.addEventListener('scroll', verificarRolagem);
+  })();
+</script>
 </body>
 </html>
